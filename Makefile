@@ -34,4 +34,4 @@ deps:
 	go get .
 
 watch:
-	gin -a 8888 run cmd/config/main.go 
+	gin -p 4200 -a 8888 run cmd/config/main.go 

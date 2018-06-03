@@ -39,7 +39,7 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 
 		ctx.Write(toJSON(item))
 	} else {
-		fmt.Println("models.config.get: found value")
+		fmt.Println(fmt.Sprintf("models.config.get: success: (%s, %s)", namespaceID, configID))
 		item := CampaignConfig{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
@@ -79,6 +79,7 @@ func PutHandler(ctx *fasthttp.RequestCtx) {
 			"error": true,
 		}))
 	} else {
+		fmt.Println(fmt.Sprintf("models.config.put: success: (%s, %s)", namespaceID, configID))
 		ctx.Write(toJSON(CampaignConfig{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
@@ -117,6 +118,7 @@ func PostHandler(ctx *fasthttp.RequestCtx) {
 			"error": true,
 		}))
 	} else {
+		fmt.Println(fmt.Sprintf("models.config.post: success: (%s, %s)", namespaceID, configID))
 		ctx.Write(toJSON(CampaignConfig{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,

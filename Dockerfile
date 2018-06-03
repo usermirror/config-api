@@ -1,15 +1,20 @@
-FROM golang:1.10-alpine
+FROM golang:alpine AS builder
 
+RUN apk add --no-cache git
 RUN mkdir -p /go/src/github.com/usermirror/config-api
 
-RUN apk update && apk add --no-cache git
-
-ADD . /go/src/github.com/usermirror/config-api 
 WORKDIR /go/src/github.com/usermirror/config-api
+COPY . .
 
-RUN go get .
-RUN go build -o main . 
+RUN go get -d -v ./...
+RUN go install -v ./...
 
-RUN apk del git mercurial
+# final stage
 
-CMD ["go", "run", "main.go"]
+FROM alpine:latest
+
+RUN apk --no-cache add ca-certificates
+COPY --from=builder /go/bin/config-api /config-api
+
+ENTRYPOINT ./config-api
+EXPOSE 8888

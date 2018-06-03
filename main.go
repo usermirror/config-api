@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/segmentio/conf"
 	"github.com/segmentio/redis-go"
@@ -23,6 +24,12 @@ func main() {
 
 	conf.Load(&config)
 
+	envRedisAddr := os.Getenv("REDIS_ADDR")
+
+	if envRedisAddr != "" {
+		config.RedisAddr = envRedisAddr
+	}
+
 	redis.DefaultClient = &redis.Client{
 		Addr: config.RedisAddr,
 	}
@@ -41,6 +48,7 @@ func main() {
 	}
 
 	fmt.Println(fmt.Sprintf("server.start: api ready on %s", config.Addr))
+	fmt.Println(fmt.Sprintf("redis.connect: %s", config.RedisAddr))
 
 	log.Fatal(server.Listen())
 }

@@ -17,9 +17,12 @@ type Server struct {
 func (server *Server) Listen() error {
 	router := fasthttprouter.New()
 
-	router.GET("/v1/namespaces/:namespaceId/configs/:configId", config.GetHandler)
-	router.PUT("/v1/namespaces/:namespaceId/configs/:configId", config.PutHandler)
-	router.POST("/v1/namespaces/:namespaceId/configs", config.PostHandler)
+	router.GET("/internal/health", CORS(ok))
+
+	router.OPTIONS("/v1/namespaces/:namespaceId/configs/:configId", CORS(ok))
+	router.GET("/v1/namespaces/:namespaceId/configs/:configId", CORS(config.GetHandler))
+	router.PUT("/v1/namespaces/:namespaceId/configs/:configId", CORS(config.PutHandler))
+	router.POST("/v1/namespaces/:namespaceId/configs", CORS(config.PostHandler))
 
 	fmt.Println(fmt.Sprintf("server.listen: %s", server.Addr))
 	return fasthttp.ListenAndServe(server.Addr, router.Handler)
