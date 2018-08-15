@@ -1,0 +1,70 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: red
+  namespace: default
+spec:
+  replicas: 10
+  template:
+    metadata:
+      labels:
+        app: red
+    spec:
+      containers:
+      - name: red
+        image: segment/red:0.5.0
+        args: [
+            "proxy",
+            "-upstream", "consul://consul.default.svc.cluster.local:8500/redis?cluster=dev",
+            "-dogstatsd", "datadog-agent-datadog:8125"
+        ]
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: red
+  labels:
+    name: red
+spec:
+  clusterIP: None
+  ports:
+    - name: tcp
+      port: 6379
+      targetPort: 6379
+  selector:
+    app: red
+
+---
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: red-test
+  namespace: default
+spec:
+  replicas: 40
+  template:
+    metadata:
+      labels:
+        app: red-test
+    spec:
+      containers:
+      - name: red
+        image: segment/red:0.5.0
+        args: [
+              "test",
+              "-proxy", "red:6479",
+              "-dogstatsd", "datadog-agent-datadog:8125",
+              "-runs", "0",
+              "-batch", "1000",
+              "-sleep", "60",
+        ]
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+

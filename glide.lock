@@ -1,0 +1,62 @@
+hash: b129427191437f7e3426801286b098e0a361ae898183a106a1499d00be20b7c3
+updated: 2018-08-15T03:45:12.246615051-07:00
+imports:
+- name: github.com/buaazp/fasthttprouter
+  version: ade4e2031af3aed7fffd241084aad80a58faf421
+- name: github.com/jackc/pgx
+  version: 89f1e6ac7276b61d885db5e5aed6fcbedd1c7e31
+  subpackages:
+  - chunkreader
+  - internal/sanitize
+  - pgio
+  - pgproto3
+  - pgtype
+- name: github.com/klauspost/compress
+  version: b50017755d442260d792c34c7c43216d9ba7ffc7
+  subpackages:
+  - flate
+  - gzip
+  - zlib
+- name: github.com/klauspost/cpuid
+  version: e7e905edc00ea8827e58662220139109efea09db
+- name: github.com/pkg/errors
+  version: 645ef00459ed84a119197bfb8d8205042c6df63d
+- name: github.com/segmentio/conf
+  version: a2a7fb2aaa3c99893d06150d50195c0be197f5d5
+- name: github.com/segmentio/fasthash
+  version: a72b379d632eab4b49e4f4b2c765cfebf0a74796
+  subpackages:
+  - jody
+- name: github.com/segmentio/go-snakecase
+  version: af59cb399f9e0d53e5231e6382e064e034d9948f
+- name: github.com/segmentio/ksuid
+  version: 112f929a3020abfcd06b77c963ec919130796a35
+- name: github.com/segmentio/objconv
+  version: 61cd5fa679277953f684db7c5463015771b22379
+  subpackages:
+  - adapters
+  - adapters/net
+  - adapters/net/mail
+  - adapters/net/url
+  - json
+  - objutil
+  - resp
+  - yaml
+- name: github.com/segmentio/redis-go
+  version: c1837d9e9680b6f90d02f359e2bc00e475ab5cb4
+- name: github.com/valyala/bytebufferpool
+  version: e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7
+- name: github.com/valyala/fasthttp
+  version: e5f51c11919d4f66400334047b897ef0a94c6f3c
+  subpackages:
+  - fasthttputil
+  - stackless
+- name: gopkg.in/go-playground/mold.v2
+  version: 6bc20ce40733e8e04c2fda4523a957dd8e198948
+  subpackages:
+  - modifiers
+- name: gopkg.in/validator.v2
+  version: 135c24b11c19e52befcae2ec3fca5d9b78c4e98e
+- name: gopkg.in/yaml.v2
+  version: 53feefa2559fb8dfa8d81baad31be332c97d6c77
+testImports: []
