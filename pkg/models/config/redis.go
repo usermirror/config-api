@@ -8,21 +8,14 @@ import (
 	redis "github.com/segmentio/redis-go"
 )
 
-// GetInput ...
-type GetInput struct {
-	Key     string
-	Timeout int
-}
+// Redis backed persistence for arbitrary key/values.
+type Redis struct{}
 
-// SetInput ...
-type SetInput struct {
-	Key     string
-	Value   []byte
-	Timeout int
-}
+// implements Store interface
+var _ Store = Redis{}
 
 // Get ...
-func Get(input GetInput) ([]byte, error) {
+func (Redis) Get(input GetInput) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 
@@ -37,7 +30,7 @@ func Get(input GetInput) ([]byte, error) {
 }
 
 // Set ...
-func Set(input SetInput) error {
+func (Redis) Set(input SetInput) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 

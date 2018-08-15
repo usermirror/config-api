@@ -8,6 +8,8 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
+var store Store = new(Redis)
+
 // GetHandler ...
 func GetHandler(ctx *fasthttp.RequestCtx) {
 	namespaceID := ctx.UserValue("namespaceId").(string)
@@ -15,7 +17,7 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 
 	key := genKey(namespaceID, configID)
 
-	value, err := Get(GetInput{
+	value, err := store.Get(GetInput{
 		Key: key,
 	})
 
@@ -68,7 +70,7 @@ func PutHandler(ctx *fasthttp.RequestCtx) {
 	fromJSON(body, &input)
 	key := genKey(namespaceID, configID)
 
-	err := Set(SetInput{
+	err := store.Set(SetInput{
 		Key:   key,
 		Value: toJSON(input),
 	})
@@ -107,7 +109,7 @@ func PostHandler(ctx *fasthttp.RequestCtx) {
 
 	key := genKey(namespaceID, configID)
 
-	err := Set(SetInput{
+	err := store.Set(SetInput{
 		Key:   key,
 		Value: toJSON(input),
 	})
