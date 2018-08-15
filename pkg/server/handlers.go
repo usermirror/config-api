@@ -1,4 +1,4 @@
-package config
+package server
 
 import (
 	"encoding/json"
@@ -6,9 +6,11 @@ import (
 
 	"github.com/segmentio/ksuid"
 	"github.com/valyala/fasthttp"
+
+	"github.com/usermirror/config-api/pkg/storage"
 )
 
-var store Store = new(Redis)
+var store storage.Store = new(storage.Redis)
 
 // GetHandler ...
 func GetHandler(ctx *fasthttp.RequestCtx) {
@@ -17,11 +19,11 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 
 	key := genKey(namespaceID, configID)
 
-	value, err := store.Get(GetInput{
+	value, err := store.Get(storage.GetInput{
 		Key: key,
 	})
 
-	var cachedConfig CampaignConfig
+	var cachedConfig storage.CampaignConfig
 
 	fromJSON(value, &cachedConfig)
 
@@ -32,7 +34,7 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 			fmt.Println(fmt.Sprintf("models.config.get: key not found: %s", key))
 		}
 
-		item := CampaignConfig{
+		item := storage.CampaignConfig{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
 			Type:        "not_found",
@@ -42,7 +44,7 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 		ctx.Write(toJSON(item))
 	} else {
 		fmt.Println(fmt.Sprintf("models.config.get: success: (%s, %s)", namespaceID, configID))
-		item := CampaignConfig{
+		item := storage.CampaignConfig{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
 			Type:        cachedConfig.Type,
@@ -70,7 +72,7 @@ func PutHandler(ctx *fasthttp.RequestCtx) {
 	fromJSON(body, &input)
 	key := genKey(namespaceID, configID)
 
-	err := store.Set(SetInput{
+	err := store.Set(storage.SetInput{
 		Key:   key,
 		Value: toJSON(input),
 	})
@@ -82,7 +84,7 @@ func PutHandler(ctx *fasthttp.RequestCtx) {
 		}))
 	} else {
 		fmt.Println(fmt.Sprintf("models.config.put: success: (%s, %s)", namespaceID, configID))
-		ctx.Write(toJSON(CampaignConfig{
+		ctx.Write(toJSON(storage.CampaignConfig{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
 			Type:        input.Type,
@@ -109,7 +111,7 @@ func PostHandler(ctx *fasthttp.RequestCtx) {
 
 	key := genKey(namespaceID, configID)
 
-	err := store.Set(SetInput{
+	err := store.Set(storage.SetInput{
 		Key:   key,
 		Value: toJSON(input),
 	})
@@ -121,7 +123,7 @@ func PostHandler(ctx *fasthttp.RequestCtx) {
 		}))
 	} else {
 		fmt.Println(fmt.Sprintf("models.config.post: success: (%s, %s)", namespaceID, configID))
-		ctx.Write(toJSON(CampaignConfig{
+		ctx.Write(toJSON(storage.CampaignConfig{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
 			Type:        input.Type,

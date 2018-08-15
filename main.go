@@ -9,7 +9,7 @@ import (
 	"github.com/segmentio/conf"
 	"github.com/segmentio/redis-go"
 
-	"github.com/usermirror/config-api/pkg/http"
+	"github.com/usermirror/config-api/pkg/server"
 )
 
 func main() {
@@ -30,6 +30,7 @@ func main() {
 		config.RedisAddr = envRedisAddr
 	}
 
+	// TODO: passthrough to store.Redis instead of using package global
 	redis.DefaultClient = &redis.Client{
 		Addr: config.RedisAddr,
 	}
@@ -43,12 +44,12 @@ func main() {
 		}
 	}
 
-	server := &http.Server{
+	s := &server.Server{
 		Addr: config.Addr,
 	}
 
 	fmt.Println(fmt.Sprintf("server.start: api ready on %s", config.Addr))
 	fmt.Println(fmt.Sprintf("redis.connect: %s", config.RedisAddr))
 
-	log.Fatal(server.Listen())
+	log.Fatal(s.Listen())
 }

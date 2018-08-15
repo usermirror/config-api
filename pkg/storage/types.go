@@ -1,4 +1,4 @@
-package config
+package storage
 
 // Store allows persistence of arbitrary data.
 type Store interface {
