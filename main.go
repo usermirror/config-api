@@ -9,17 +9,25 @@ import (
 	"github.com/segmentio/conf"
 	"github.com/segmentio/redis-go"
 
-	"github.com/usermirror/config-api/pkg/http"
+	"github.com/usermirror/config-api/pkg/server"
 )
 
 func main() {
 	config := struct {
-		Addr          string `conf:"addr" help:"Address where to bind the service, default = :8888"`
-		RedisAddr     string `conf:"redis-addr" help:"Redis server address, default = localhost:6379"`
-		RedisPassword string `conf:"redis-password" help:"Redis server password"`
+		Addr           string `conf:"addr" help:"Address where to bind the service, default = :8888"`
+		EtcdAddr       string `conf:"etcd-addr" help:"etcd client port, default = secret-store-etcd-client:2379"`
+		RedisAddr      string `conf:"redis-addr" help:"Redis server address, default = localhost:6379"`
+		RedisPassword  string `conf:"redis-password" help:"Redis server password"`
+		VaultAddr      string `conf:"vault-addr" help:"Vault server address, default = localhost:8200"`
+		VaultToken     string `conf:"vault-token" help:"Vault root token"`
+		StorageBackend string `conf:"storage-backend" help:"Default storage backend for configs, default = vault"`
 	}{
-		Addr:      ":8888",
-		RedisAddr: "localhost:6379",
+		Addr:           ":8888",
+		EtcdAddr:       "localhost:2379",
+		RedisAddr:      "localhost:6379",
+		VaultAddr:      "http://localhost:8200/",
+		VaultToken:     "1e7d2b9b-de0e-67a6-9362-6b9b01bf4e89",
+		StorageBackend: "vault",
 	}
 
 	conf.Load(&config)
@@ -30,6 +38,7 @@ func main() {
 		config.RedisAddr = envRedisAddr
 	}
 
+	// TODO: passthrough to store.Redis instead of using package global
 	redis.DefaultClient = &redis.Client{
 		Addr: config.RedisAddr,
 	}
@@ -43,12 +52,16 @@ func main() {
 		}
 	}
 
-	server := &http.Server{
-		Addr: config.Addr,
+	s := &server.Server{
+		Addr:           config.Addr,
+		EtcdAddr:       config.EtcdAddr,
+		VaultAddr:      config.VaultAddr,
+		VaultToken:     config.VaultToken,
+		StorageBackend: config.StorageBackend,
 	}
 
 	fmt.Println(fmt.Sprintf("server.start: api ready on %s", config.Addr))
 	fmt.Println(fmt.Sprintf("redis.connect: %s", config.RedisAddr))
 
-	log.Fatal(server.Listen())
+	log.Fatal(s.Listen())
 }

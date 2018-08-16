@@ -1,0 +1,13 @@
+package: github.com/usermirror/config-api
+import:
+- package: github.com/buaazp/fasthttprouter
+  version: ~0.1.1
+- package: github.com/jackc/pgx
+  version: ~3.2.0
+- package: github.com/segmentio/conf
+- package: github.com/segmentio/ksuid
+  version: ~1.0.1
+- package: github.com/segmentio/redis-go
+  version: ~0.5.1
+- package: github.com/valyala/fasthttp
+  version: ~20180529.0.0
