@@ -1,10 +1,10 @@
 hash: b129427191437f7e3426801286b098e0a361ae898183a106a1499d00be20b7c3
-updated: 2018-08-15T20:56:42.268194712-07:00
+updated: 2018-08-16T12:08:38.441503-07:00
 imports:
 - name: github.com/buaazp/fasthttprouter
   version: ade4e2031af3aed7fffd241084aad80a58faf421
 - name: github.com/coreos/etcd
-  version: 2a6bc7d1130d2fa3336af5ffa2bcf82d760c945e
+  version: 6890a9e633b0cdccdeaf65ccda3d84fb0838801f
   subpackages:
   - auth/authpb
   - clientv3
@@ -28,23 +28,57 @@ imports:
   subpackages:
   - capnslog
 - name: github.com/gogo/protobuf
-  version: c0656edd0d9eab7c66d1eb0c568f9039345796f7
+  version: 5e816401ac7168a24541712714d3d057341d7b46
   subpackages:
   - gogoproto
   - proto
   - protoc-gen-gogo/descriptor
 - name: github.com/golang/protobuf
-  version: 1643683e1b54a9e88ad26d98f81400c8c9d9f4f9
+  version: aa810b61a9c79d51363740d207bb46cf8e620ed5
   subpackages:
   - proto
   - ptypes
   - ptypes/any
   - ptypes/duration
   - ptypes/timestamp
+- name: github.com/golang/snappy
+  version: 2e65f85255dbc3072edf28d6b5b8efc472979f5a
 - name: github.com/grpc-ecosystem/go-grpc-middleware
   version: e9c5d9645c437ab1b204cff969a2c0fb16cd4276
   subpackages:
   - util/backoffutils
+- name: github.com/hashicorp/errwrap
+  version: d6c0cd88035724dd42e0f335ae30161c20575ecc
+- name: github.com/hashicorp/go-cleanhttp
+  version: d5fe4b57a186c716b0e00b8c301cbd9b4182694d
+- name: github.com/hashicorp/go-multierror
+  version: 3d5d8f294aa03d8e98859feac328afbdf1ae0703
+- name: github.com/hashicorp/go-retryablehttp
+  version: e651d75abec6fbd4f2c09508f72ae7af8a8b7171
+- name: github.com/hashicorp/go-rootcerts
+  version: 6bb64b370b90e7ef1fa532be9e591a81c3493e00
+- name: github.com/hashicorp/go-sockaddr
+  version: 6d291a969b86c4b633730bfc6b8b9d64c3aafed9
+- name: github.com/hashicorp/hcl
+  version: ef8a98b0bbce4a65b5aa4c368430a80ddc533168
+  subpackages:
+  - hcl/ast
+  - hcl/parser
+  - hcl/scanner
+  - hcl/strconv
+  - hcl/token
+  - json/parser
+  - json/scanner
+  - json/token
+- name: github.com/hashicorp/vault
+  version: 801eddf5f868dec54fb8aedade12d38cd9b1c8df
+  subpackages:
+  - api
+  - helper/compressutil
+  - helper/hclutil
+  - helper/jsonutil
+  - helper/parseutil
+  - helper/strutil
 - name: github.com/jackc/pgx
   version: 89f1e6ac7276b61d885db5e5aed6fcbedd1c7e31
 - name: github.com/klauspost/compress
@@ -55,6 +89,12 @@ imports:
   - zlib
 - name: github.com/klauspost/cpuid
   version: e7e905edc00ea8827e58662220139109efea09db
+- name: github.com/mitchellh/go-homedir
+  version: 58046073cbffe2f25d425fe1331102f55cf719de
+- name: github.com/mitchellh/mapstructure
+  version: f15292f7a699fcc1a38a80977f80a046874ba8ac
+- name: github.com/ryanuber/go-glob
+  version: 256dc444b735e061061cf46c809487313d5b0065
 - name: github.com/segmentio/conf
   version: a2a7fb2aaa3c99893d06150d50195c0be197f5d5
 - name: github.com/segmentio/fasthash
@@ -98,37 +138,53 @@ imports:
   - internal/exit
   - zapcore
 - name: golang.org/x/net
-  version: 1c05540f6879653db88113bc4a2b70aec4bd491f
+  version: aaf60122140d3fcf75376d319f0554393160eb50
   subpackages:
   - context
+  - http/httpguts
   - http2
   - http2/hpack
   - idna
   - internal/timeseries
-  - lex/httplex
   - trace
+- name: golang.org/x/sys
+  version: 1c9583448a9c3aa0f9a6a5241bf73c0bd8aafded
+  subpackages:
+  - unix
 - name: golang.org/x/text
-  version: b19bf474d317b857955b12035d2c5acb57ce8b01
+  version: 6e3c4e7365ddcc329f090f96e4348398f6310088
   subpackages:
   - secure/bidirule
   - transform
   - unicode/bidi
   - unicode/norm
+- name: golang.org/x/time
+  version: fbb02b2291d28baffd63558aa44b4b56f178d650
+  subpackages:
+  - rate
 - name: google.golang.org/genproto
-  version: 09f6ed296fc66555a25fe4ce95173148778dfa85
+  version: d0a8f471bba2dbb160885b0000d814ee5d559bad
   subpackages:
   - googleapis/rpc/status
 - name: google.golang.org/grpc
-  version: 5ffe3083946d5603a0578721101dc8165b1d5b5f
+  version: 9907ae0e57ce159e835381ed54eb271206bf7b12
   subpackages:
   - balancer
+  - balancer/base
+  - balancer/roundrobin
   - codes
   - connectivity
   - credentials
-  - grpclb/grpc_lb_v1/messages
+  - encoding
+  - encoding/proto
   - grpclog
   - health/grpc_health_v1
   - internal
+  - internal/backoff
+  - internal/channelz
+  - internal/envconfig
+  - internal/grpcrand
+  - internal/transport
   - keepalive
   - metadata
   - naming
@@ -139,7 +195,6 @@ imports:
   - stats
   - status
   - tap
-  - transport
 - name: gopkg.in/go-playground/mold.v2
   version: 6bc20ce40733e8e04c2fda4523a957dd8e198948
   subpackages:
@@ -147,5 +202,5 @@ imports:
 - name: gopkg.in/validator.v2
   version: 135c24b11c19e52befcae2ec3fca5d9b78c4e98e
 - name: gopkg.in/yaml.v2
-  version: 53feefa2559fb8dfa8d81baad31be332c97d6c77
+  version: 5420a8b6744d3b0345ab293f6fcba19c978f1183
 testImports: []
