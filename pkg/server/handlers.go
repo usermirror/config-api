@@ -3,6 +3,7 @@ package server
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/segmentio/ksuid"
 	"github.com/valyala/fasthttp"
@@ -28,8 +29,13 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 	fromJSON(value, &cachedConfig)
 
 	if err != nil || value == nil || (cachedConfig.Type == "" && cachedConfig.Body == "") {
+		configType := "not_found"
+
 		if err != nil {
 			fmt.Println(fmt.Sprintf("models.config.get: error: %v", err))
+			if strings.Contains(err.Error(), "sealed") {
+				configType = "locked"
+			}
 		} else {
 			fmt.Println(fmt.Sprintf("models.config.get: key not found: %s", key))
 		}
@@ -37,7 +43,7 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 		item := storage.CampaignConfig{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
-			Type:        "not_found",
+			Type:        configType,
 			Body:        map[string]interface{}{},
 		}
 
@@ -80,7 +86,8 @@ func PutHandler(ctx *fasthttp.RequestCtx) {
 	if err != nil {
 		fmt.Println(fmt.Sprintf("models.config.put: error: %v", err))
 		ctx.Write(toJSON(map[string]interface{}{
-			"error": true,
+			"error":   true,
+			"message": err.Error(),
 		}))
 	} else {
 		fmt.Println(fmt.Sprintf("models.config.put: success: (%s, %s)", namespaceID, configID))
@@ -119,7 +126,8 @@ func PostHandler(ctx *fasthttp.RequestCtx) {
 	if err != nil {
 		fmt.Println(fmt.Sprintf("models.config.post: error: %v", err))
 		ctx.Write(toJSON(map[string]interface{}{
-			"error": true,
+			"error":   true,
+			"message": err.Error(),
 		}))
 	} else {
 		fmt.Println(fmt.Sprintf("models.config.post: success: (%s, %s)", namespaceID, configID))

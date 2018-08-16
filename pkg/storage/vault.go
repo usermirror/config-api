@@ -41,7 +41,9 @@ func (v *Vault) Get(input GetInput) ([]byte, error) {
 	fmt.Println(fmt.Sprintf("storage.vault.get: %s", keyName))
 	resp, err := v.client.Logical().Read(keyName)
 	if err != nil {
-		return nil, err
+		if strings.Contains(err.Error(), "Vault is sealed") {
+			return nil, errors.New("vault.get.fail: sealed")
+		}
 	}
 
 	if resp == nil || resp.Data["data"] == nil {
@@ -76,6 +78,11 @@ func (v *Vault) Set(input SetInput) error {
 			valueKey: string(input.Value),
 		},
 	})
+	if err != nil {
+		if strings.Contains(err.Error(), "Vault is sealed") {
+			return errors.New("vault.set.fail: sealed")
+		}
+	}
 
 	return err
 }
