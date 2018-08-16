@@ -5,10 +5,13 @@ Simple configuration API service backed by high-performance KV stores and durabl
 #### Currently Supported
 
 - Redis
+- Etcd
+- Vault (for secrets)
 
 #### On the Roadmap
 
 - PostgreSQL
 - MySQL
 - Memcached
+- Cockroachdb
 
