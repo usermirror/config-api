@@ -1,16 +1,52 @@
 hash: b129427191437f7e3426801286b098e0a361ae898183a106a1499d00be20b7c3
-updated: 2018-08-15T03:45:12.246615051-07:00
+updated: 2018-08-15T20:56:42.268194712-07:00
 imports:
 - name: github.com/buaazp/fasthttprouter
   version: ade4e2031af3aed7fffd241084aad80a58faf421
+- name: github.com/coreos/etcd
+  version: 2a6bc7d1130d2fa3336af5ffa2bcf82d760c945e
+  subpackages:
+  - auth/authpb
+  - clientv3
+  - clientv3/balancer
+  - clientv3/balancer/picker
+  - clientv3/balancer/resolver/endpoint
+  - etcdserver/api/v3rpc/rpctypes
+  - etcdserver/etcdserverpb
+  - mvcc/mvccpb
+  - pkg/logutil
+  - pkg/systemd
+  - pkg/types
+  - raft
+  - raft/raftpb
+- name: github.com/coreos/go-systemd
+  version: 88bfeed483d372fa1298dd859662e4b9a13d68cb
+  subpackages:
+  - journal
+- name: github.com/coreos/pkg
+  version: 97fdf19511ea361ae1c100dd393cc47f8dcfa1e1
+  subpackages:
+  - capnslog
+- name: github.com/gogo/protobuf
+  version: c0656edd0d9eab7c66d1eb0c568f9039345796f7
+  subpackages:
+  - gogoproto
+  - proto
+  - protoc-gen-gogo/descriptor
+- name: github.com/golang/protobuf
+  version: 1643683e1b54a9e88ad26d98f81400c8c9d9f4f9
+  subpackages:
+  - proto
+  - ptypes
+  - ptypes/any
+  - ptypes/duration
+  - ptypes/timestamp
+- name: github.com/grpc-ecosystem/go-grpc-middleware
+  version: e9c5d9645c437ab1b204cff969a2c0fb16cd4276
+  subpackages:
+  - util/backoffutils
 - name: github.com/jackc/pgx
   version: 89f1e6ac7276b61d885db5e5aed6fcbedd1c7e31
-  subpackages:
-  - chunkreader
-  - internal/sanitize
-  - pgio
-  - pgproto3
-  - pgtype
 - name: github.com/klauspost/compress
   version: b50017755d442260d792c34c7c43216d9ba7ffc7
   subpackages:
@@ -19,8 +55,6 @@ imports:
   - zlib
 - name: github.com/klauspost/cpuid
   version: e7e905edc00ea8827e58662220139109efea09db
-- name: github.com/pkg/errors
-  version: 645ef00459ed84a119197bfb8d8205042c6df63d
 - name: github.com/segmentio/conf
   version: a2a7fb2aaa3c99893d06150d50195c0be197f5d5
 - name: github.com/segmentio/fasthash
@@ -51,6 +85,61 @@ imports:
   subpackages:
   - fasthttputil
   - stackless
+- name: go.uber.org/atomic
+  version: 1ea20fb1cbb1cc08cbd0d913a96dead89aa18289
+- name: go.uber.org/multierr
+  version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
+- name: go.uber.org/zap
+  version: 67bc79d13d155c02fd008f721863ff8cc5f30659
+  subpackages:
+  - buffer
+  - internal/bufferpool
+  - internal/color
+  - internal/exit
+  - zapcore
+- name: golang.org/x/net
+  version: 1c05540f6879653db88113bc4a2b70aec4bd491f
+  subpackages:
+  - context
+  - http2
+  - http2/hpack
+  - idna
+  - internal/timeseries
+  - lex/httplex
+  - trace
+- name: golang.org/x/text
+  version: b19bf474d317b857955b12035d2c5acb57ce8b01
+  subpackages:
+  - secure/bidirule
+  - transform
+  - unicode/bidi
+  - unicode/norm
+- name: google.golang.org/genproto
+  version: 09f6ed296fc66555a25fe4ce95173148778dfa85
+  subpackages:
+  - googleapis/rpc/status
+- name: google.golang.org/grpc
+  version: 5ffe3083946d5603a0578721101dc8165b1d5b5f
+  subpackages:
+  - balancer
+  - codes
+  - connectivity
+  - credentials
+  - grpclb/grpc_lb_v1/messages
+  - grpclog
+  - health/grpc_health_v1
+  - internal
+  - keepalive
+  - metadata
+  - naming
+  - peer
+  - resolver
+  - resolver/dns
+  - resolver/passthrough
+  - stats
+  - status
+  - tap
+  - transport
 - name: gopkg.in/go-playground/mold.v2
   version: 6bc20ce40733e8e04c2fda4523a957dd8e198948
   subpackages:
