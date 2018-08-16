@@ -2,8 +2,9 @@ package storage
 
 import (
 	"context"
-	"github.com/coreos/etcd/clientv3"
 	"time"
+
+	"github.com/coreos/etcd/clientv3"
 )
 
 // NewEtcd creates a new Store through the etcdv3 client.
@@ -36,6 +37,10 @@ func (e *Etcd) Get(input GetInput) ([]byte, error) {
 	resp, err := e.client.Get(ctx, input.Key)
 	if err != nil {
 		return nil, err
+	}
+
+	if len(resp.Kvs) == 0 {
+		return nil, nil
 	}
 
 	return resp.Kvs[0].Value, nil

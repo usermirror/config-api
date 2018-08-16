@@ -20,7 +20,7 @@ func main() {
 		RedisPassword string `conf:"redis-password" help:"Redis server password"`
 	}{
 		Addr:      ":8888",
-		EtcdAddr:  "secret-store-etcd-client:2379",
+		EtcdAddr:  "localhost:2379",
 		RedisAddr: "localhost:6379",
 	}
 

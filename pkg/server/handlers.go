@@ -27,7 +27,7 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 
 	fromJSON(value, &cachedConfig)
 
-	if err != nil || (cachedConfig.Type == "" && cachedConfig.Body == "") {
+	if err != nil || value == nil || (cachedConfig.Type == "" && cachedConfig.Body == "") {
 		if err != nil {
 			fmt.Println(fmt.Sprintf("models.config.get: error: %v", err))
 		} else {
