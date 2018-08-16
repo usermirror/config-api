@@ -3,26 +3,44 @@ package server
 import (
 	"fmt"
 
-	"github.com/buaazp/fasthttprouter"
 	"github.com/usermirror/config-api/pkg/storage"
+
+	"github.com/buaazp/fasthttprouter"
 	"github.com/valyala/fasthttp"
 )
 
 // Server is the config API http server
 type Server struct {
+	// Addr is the address where `config-api` listens for incoming requests.
 	Addr string
-
-	// EtcdAddr is created by the etcd-operator so clients can access a cluster it manages.
+	// StorageBackend is the default storage backend that will be used.
+	StorageBackend string
+	// EtcdAddr is the address of the running etcd cluster.
 	EtcdAddr string
+	// VaultAddr is the address of the running vault server.
+	VaultAddr string
+	// VaultToken is root token for vault to read/write secure configurations.
+	VaultToken string
 }
 
 // Listen starts the proxy server
 func (server *Server) Listen() error {
-	// TODO: add backend selection as flag
-	if etcd, err := storage.NewEtcd(server.EtcdAddr); err == nil {
-		store = etcd
-		defer etcd.Close()
+	switch server.StorageBackend {
+	case "etcd":
+		if etcd, err := storage.NewEtcd(server.EtcdAddr); err == nil {
+			store = etcd
+			defer etcd.Close()
+		}
+	case "vault":
+		if vault, err := storage.NewVault(server.VaultAddr, server.VaultToken); err == nil {
+			store = vault
+		}
+	default:
+		// Use default redis backend
+		server.StorageBackend = "redis"
 	}
+
+	fmt.Println(fmt.Sprintf("server.config: using %s as default storage backend", server.StorageBackend))
 
 	router := fasthttprouter.New()
 
