@@ -12,6 +12,7 @@ Simple configuration API service backed by high-performance KV stores and durabl
 
 - PostgreSQL
 - MySQL
+- Cassandra
 - Memcached
 - Cockroachdb
 
