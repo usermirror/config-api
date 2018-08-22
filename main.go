@@ -55,13 +55,13 @@ func main() {
 	s := &server.Server{
 		Addr:           config.Addr,
 		EtcdAddr:       config.EtcdAddr,
+		RedisAddr:      config.RedisAddr,
 		VaultAddr:      config.VaultAddr,
 		VaultToken:     config.VaultToken,
 		StorageBackend: config.StorageBackend,
 	}
 
 	fmt.Println(fmt.Sprintf("server.start: api ready on %s", config.Addr))
-	fmt.Println(fmt.Sprintf("redis.connect: %s", config.RedisAddr))
 
 	log.Fatal(s.Listen())
 }

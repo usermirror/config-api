@@ -1,0 +1,19 @@
+{
+  "name": "config-client",
+  "version": "0.1.0",
+  "description": "JavaScript client for working with configuratons",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava",
+    "rt": "real=1 npm test"
+  },
+  "author": "UserMirror <open@usermirror.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^0.25.0"
+  },
+  "dependencies": {
+    "analytics-id": "^1.0.2",
+    "axios": "^0.18.0"
+  }
+}

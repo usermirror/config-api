@@ -17,6 +17,8 @@ type Server struct {
 	StorageBackend string
 	// EtcdAddr is the address of the running etcd cluster.
 	EtcdAddr string
+	// RedisAddr is the address of the running redis cluster.
+	RedisAddr string
 	// VaultAddr is the address of the running vault server.
 	VaultAddr string
 	// VaultToken is root token for vault to read/write secure configurations.
@@ -38,6 +40,7 @@ func (server *Server) Listen() error {
 	default:
 		// Use default redis backend
 		server.StorageBackend = "redis"
+		fmt.Println(fmt.Sprintf("redis.connect: %s", server.RedisAddr))
 	}
 
 	fmt.Println(fmt.Sprintf("server.config: using %s as default storage backend", server.StorageBackend))
