@@ -24,7 +24,7 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 		Key: key,
 	})
 
-	var cachedConfig storage.CampaignConfig
+	var cachedConfig storage.Config
 
 	fromJSON(value, &cachedConfig)
 
@@ -40,7 +40,7 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 			fmt.Println(fmt.Sprintf("models.config.get: key not found: %s", key))
 		}
 
-		item := storage.CampaignConfig{
+		item := storage.Config{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
 			Type:        configType,
@@ -50,7 +50,7 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 		ctx.Write(toJSON(item))
 	} else {
 		fmt.Println(fmt.Sprintf("models.config.get: success: (%s, %s)", namespaceID, configID))
-		item := storage.CampaignConfig{
+		item := storage.Config{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
 			Type:        cachedConfig.Type,
@@ -91,7 +91,7 @@ func PutHandler(ctx *fasthttp.RequestCtx) {
 		}))
 	} else {
 		fmt.Println(fmt.Sprintf("models.config.put: success: (%s, %s)", namespaceID, configID))
-		ctx.Write(toJSON(storage.CampaignConfig{
+		ctx.Write(toJSON(storage.Config{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
 			Type:        input.Type,
@@ -131,7 +131,7 @@ func PostHandler(ctx *fasthttp.RequestCtx) {
 		}))
 	} else {
 		fmt.Println(fmt.Sprintf("models.config.post: success: (%s, %s)", namespaceID, configID))
-		ctx.Write(toJSON(storage.CampaignConfig{
+		ctx.Write(toJSON(storage.Config{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
 			Type:        input.Type,

@@ -1,7 +1,14 @@
 const axios = require('axios')
+const { getOptions, getPath } = require('./utils')
 
 function ConfigClient(opts) {
-  const { host, version, timeout, namespaceId, userAgent } = getOptions(opts)
+  const {
+    host,
+    version,
+    timeout,
+    namespaceId,
+    userAgent
+  } = getOptions(opts)
 
   this.namespaceId = namespaceId
   this.apiHost = host
@@ -11,13 +18,11 @@ function ConfigClient(opts) {
   this.client = axios.create({
     baseURL,
     timeout,
-    headers: {
-      'user-agent': userAgent
-    }
+    headers: { 'user-agent': userAgent }
   })
 }
 
-ConfigClient.prototype.get = function (opts) {
+ConfigClient.prototype.get = function getConfig (opts) {
   if (!opts) {
     return Promise.reject(new Error('config-client.get: missing opts'))
   }
@@ -37,9 +42,9 @@ ConfigClient.prototype.get = function (opts) {
   return response
 }
 
-ConfigClient.prototype.set = function (opts) {
+ConfigClient.prototype.set = function setConfig (opts) {
   if (!opts) {
-    return Promise.reject(new Error('config-client.get: missing opts'))
+    return Promise.reject(new Error('config-client.set: missing opts'))
   }
 
   const namespaceId = opts.namespaceId || this.namespaceId
@@ -55,23 +60,7 @@ ConfigClient.prototype.set = function (opts) {
 
 ConfigClient.prototype.list = function (opts) {
   // TODO: list configurations
-}
-
-const defaultOptions = {
-  host: 'http://localhost:8888',
-  userAgent: 'config-client@0.1.0',
-  timeout: 5000,
-  version: 1
-}
-
-function getOptions(opts) {
-  return Object.assign({}, defaultOptions, opts || {})
-}
-
-function getPath(opts) {
-  const { namespaceId, configId } = opts
-
-  return ['/namespaces/', namespaceId, '/configs/', configId].join('')
+  return Promise.resolve({ type: 'not_found' })
 }
 
 module.exports = ConfigClient
