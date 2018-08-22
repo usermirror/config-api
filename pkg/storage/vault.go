@@ -87,6 +87,10 @@ func (v *Vault) Set(input SetInput) error {
 	return err
 }
 
+func (v *Vault) Scan(input ScanInput) (*KeyList, error) {
+	return nil, nil
+}
+
 func (v *Vault) Close() error {
 	v.client.ClearToken()
 	return nil

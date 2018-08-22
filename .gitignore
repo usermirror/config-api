@@ -1,6 +1,8 @@
+tmp
 gin-bin
 .DS_Store
 *.tmp
 *.rdb
 *.log
+*.etcd
 **/node_modules/**

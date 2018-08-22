@@ -43,3 +43,7 @@ func (Redis) Set(input SetInput) error {
 
 	return nil
 }
+
+func (Redis) Scan(input ScanInput) (*KeyList, error) {
+	return nil, nil
+}

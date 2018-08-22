@@ -61,6 +61,39 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 	}
 }
 
+// ScanHandler ...
+func ScanHandler(ctx *fasthttp.RequestCtx) {
+	namespaceID := ctx.UserValue("namespaceId").(string)
+
+	list, err := store.Scan(storage.ScanInput{
+		Prefix: namespaceID,
+	})
+
+	if err != nil || list == nil || len(list.Kvs) == 0 {
+		if err != nil {
+			fmt.Println(fmt.Sprintf("models.config.scan: error: %v", err))
+			if strings.Contains(err.Error(), "sealed") {
+				// configType = "locked"
+			}
+		}
+
+		item := map[string]interface{}{
+			"namespace_id": namespaceID,
+			"list":         list.Kvs,
+		}
+
+		ctx.Write(toJSON(item))
+	} else {
+		fmt.Println(fmt.Sprintf("models.config.scan: success: (%s)", namespaceID))
+		item := map[string]interface{}{
+			"namespace_id": namespaceID,
+			"list":         list.Kvs,
+		}
+
+		ctx.Write(toJSON(item))
+	}
+}
+
 // PutInput ...
 type PutInput struct {
 	Type string      `json:"type"`

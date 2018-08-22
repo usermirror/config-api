@@ -54,6 +54,31 @@ func (e *Etcd) Set(input SetInput) error {
 	return err
 }
 
+func (e *Etcd) Scan(input ScanInput) (*KeyList, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
+
+	resp, err := e.client.Get(ctx, input.Prefix, clientv3.WithPrefix())
+	if err != nil {
+		return nil, err
+	}
+
+	if len(resp.Kvs) == 0 {
+		return nil, nil
+	}
+
+	kl := KeyList{}
+
+	for _, item := range resp.Kvs {
+		kl.Kvs = append(kl.Kvs, KeyValue{
+			Key:   string(item.Key),
+			Value: item.Value,
+		})
+	}
+
+	return &kl, err
+}
+
 func (e *Etcd) Close() error {
 	return e.client.Close()
 }
