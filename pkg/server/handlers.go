@@ -79,7 +79,7 @@ func ScanHandler(ctx *fasthttp.RequestCtx) {
 
 		item := map[string]interface{}{
 			"namespace_id": namespaceID,
-			"list":         list.Kvs,
+			"list":         []string{},
 		}
 
 		ctx.Write(toJSON(item))

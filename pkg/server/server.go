@@ -47,6 +47,9 @@ func (server *Server) Listen() error {
 
 	router := fasthttprouter.New()
 
+	router.PanicHandler = handlePanic
+
+	router.GET("/", CORS(ok))
 	router.GET("/internal/health", CORS(ok))
 
 	router.OPTIONS("/v1/namespaces/:namespaceId/configs", CORS(ok))
@@ -59,4 +62,19 @@ func (server *Server) Listen() error {
 
 	fmt.Println(fmt.Sprintf("server.listen: %s", server.Addr))
 	return fasthttp.ListenAndServe(server.Addr, router.Handler)
+}
+
+func handlePanic(ctx *fasthttp.RequestCtx, err interface{}) {
+	if err != nil {
+		fmt.Println(err)
+		ctx.Write(toJSON(map[string]interface{}{
+			"error":   true,
+			"message": fmt.Sprintf("%e", err),
+		}))
+	} else {
+		ctx.Write(toJSON(map[string]interface{}{
+			"error":   true,
+			"message": "unknown",
+		}))
+	}
 }

@@ -1,27 +1,30 @@
 NAME=config-api
-DEPLOYMENT=deployment/$(NAME)-deployment
+DEPLOYMENT=deployment/$(NAME)
 GOCMD=go
 GET_HASH=$(GOCMD) run $(GOPATH)/src/github.com/segmentio/ksuid/cmd/ksuid/main.go
 HASH:=$(shell $(GET_HASH))
 GCP_PROJECT=um-west1-prod
 GCR_REPO=us.gcr.io/$(GCP_PROJECT)/$(NAME)
+DOCKERHUB_ORG=usermirror
+DOCKERHUB_IMAGE=$(DOCKERHUB_ORG)/$(NAME)
 
-gcr-build:
-	@echo "🛠 $(HASH)"
-	@docker build -q -t $(GCR_REPO):$(HASH) -t $(GCR_REPO):latest . > /dev/null
-	@echo "✅ $(GCR_REPO):$(HASH)"
+build:
+	@make docker-build docker-push
+
+docker-build:
+	@echo "Building... ($(HASH))"
+	@docker build -t $(DOCKERHUB_IMAGE):$(HASH) -t $(DOCKERHUB_IMAGE):latest  .
+	@echo "Built complete ($(HASH))"
+
+docker-push:
+	@echo "🛫 Docker Hub · $(HASH)"
+	@docker push $(DOCKERHUB_IMAGE):$(HASH)
+	@echo "🛬 Docker Hub · $(DOCKERHUB_IMAGE):$(HASH)"
 
 gcr-push:
 	@echo "🛫 GCR · $(HASH)"
 	@gcloud docker -- push $(GCR_REPO) > /dev/null
 	@echo "🛬 GCR · $(GCR_REPO):$(HASH)"
-
-gcr: gcr-build gcr-push
-
-gcr-rolling-update:
-	kubectl set image $(DEPLOYMENT) $(NAME)=$(GCR_REPO):$(HASH)
-
-gcr-deploy: gcr gcr-rolling-update
 
 rollout-status:
 	kubectl rollout status $(DEPLOYMENT)
