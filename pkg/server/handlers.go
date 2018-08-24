@@ -32,12 +32,12 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 		configType := "not_found"
 
 		if err != nil {
-			fmt.Println(fmt.Sprintf("models.config.get: error: %v", err))
+			fmt.Println(fmt.Sprintf("handlers.config.get: error: %v", err))
 			if strings.Contains(err.Error(), "sealed") {
 				configType = "locked"
 			}
 		} else {
-			fmt.Println(fmt.Sprintf("models.config.get: key not found: %s", key))
+			fmt.Println(fmt.Sprintf("handlers.config.get: key not found: %s", key))
 		}
 
 		item := storage.Config{
@@ -49,7 +49,7 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 
 		ctx.Write(toJSON(item))
 	} else {
-		fmt.Println(fmt.Sprintf("models.config.get: success: (%s, %s)", namespaceID, configID))
+		fmt.Println(fmt.Sprintf("handlers.config.get: success: (%s, %s)", namespaceID, configID))
 		item := storage.Config{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
@@ -71,7 +71,7 @@ func ScanHandler(ctx *fasthttp.RequestCtx) {
 
 	if err != nil || list == nil || len(list.Kvs) == 0 {
 		if err != nil {
-			fmt.Println(fmt.Sprintf("models.config.scan: error: %v", err))
+			fmt.Println(fmt.Sprintf("handlers.config.scan: error: %v", err))
 			if strings.Contains(err.Error(), "sealed") {
 				// configType = "locked"
 			}
@@ -84,7 +84,7 @@ func ScanHandler(ctx *fasthttp.RequestCtx) {
 
 		ctx.Write(toJSON(item))
 	} else {
-		fmt.Println(fmt.Sprintf("models.config.scan: success: (%s)", namespaceID))
+		fmt.Println(fmt.Sprintf("handlers.config.scan: success: (%s)", namespaceID))
 		item := map[string]interface{}{
 			"namespace_id": namespaceID,
 			"list":         list.Kvs,
@@ -117,13 +117,13 @@ func PutHandler(ctx *fasthttp.RequestCtx) {
 	})
 
 	if err != nil {
-		fmt.Println(fmt.Sprintf("models.config.put: error: %v", err))
+		fmt.Println(fmt.Sprintf("handlers.config.put: error: %v", err))
 		ctx.Write(toJSON(map[string]interface{}{
 			"error":   true,
 			"message": err.Error(),
 		}))
 	} else {
-		fmt.Println(fmt.Sprintf("models.config.put: success: (%s, %s)", namespaceID, configID))
+		fmt.Println(fmt.Sprintf("handlers.config.put: success: (%s, %s)", namespaceID, configID))
 		ctx.Write(toJSON(storage.Config{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,
@@ -157,13 +157,13 @@ func PostHandler(ctx *fasthttp.RequestCtx) {
 	})
 
 	if err != nil {
-		fmt.Println(fmt.Sprintf("models.config.post: error: %v", err))
+		fmt.Println(fmt.Sprintf("handlers.config.post: error: %v", err))
 		ctx.Write(toJSON(map[string]interface{}{
 			"error":   true,
 			"message": err.Error(),
 		}))
 	} else {
-		fmt.Println(fmt.Sprintf("models.config.post: success: (%s, %s)", namespaceID, configID))
+		fmt.Println(fmt.Sprintf("handlers.config.post: success: (%s, %s)", namespaceID, configID))
 		ctx.Write(toJSON(storage.Config{
 			NamespaceID: namespaceID,
 			ConfigID:    configID,

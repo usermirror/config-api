@@ -35,7 +35,7 @@ func (Redis) Set(input SetInput) error {
 	defer cancel()
 
 	if err := redis.Exec(ctx, "SET", input.Key, input.Value); err != nil {
-		fmt.Println("models.config.redis: set failed")
+		fmt.Println("redis.set.fail: server error")
 		fmt.Println(err)
 
 		return err
