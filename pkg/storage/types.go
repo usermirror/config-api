@@ -4,7 +4,7 @@ package storage
 type Store interface {
 	Get(input GetInput) ([]byte, error)
 	Set(input SetInput) error
-	Scan(input ScanInput) (*KeyList, error)
+	Scan(input ScanInput) (KeyList, error)
 }
 
 // GetInput is a request to read data from a Store.
@@ -28,14 +28,8 @@ type ScanInput struct {
 
 // KeyList is a list of key/value pairs and a cursor.
 type KeyList struct {
-	Kvs    []KeyValue
+	Keys   []string `json:"keys"`
 	Cursor int
-}
-
-// KeyValue is a single key/value pair.
-type KeyValue struct {
-	Key   string      `json:"key"`
-	Value interface{} `json:"value,omitempty"`
 }
 
 // Config contains options specific to an individual configuration.

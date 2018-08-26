@@ -69,29 +69,26 @@ func ScanHandler(ctx *fasthttp.RequestCtx) {
 		Prefix: namespaceID,
 	})
 
-	if err != nil || list == nil || len(list.Kvs) == 0 {
-		if err != nil {
-			fmt.Println(fmt.Sprintf("handlers.config.scan: error: %v", err))
-			if strings.Contains(err.Error(), "sealed") {
-				// configType = "locked"
-			}
+	if err != nil {
+		fmt.Println(fmt.Sprintf("handlers.config.scan: error: %e", err))
+		if strings.Contains(err.Error(), "sealed") {
+			// configType = "locked"
 		}
-
-		item := map[string]interface{}{
-			"namespace_id": namespaceID,
-			"list":         []string{},
-		}
-
-		ctx.Write(toJSON(item))
 	} else {
 		fmt.Println(fmt.Sprintf("handlers.config.scan: success: (%s)", namespaceID))
-		item := map[string]interface{}{
-			"namespace_id": namespaceID,
-			"list":         list.Kvs,
-		}
-
-		ctx.Write(toJSON(item))
 	}
+
+	res := map[string]interface{}{
+		"namespace_id": namespaceID,
+		"type":         "list",
+		"items":        []string{},
+	}
+
+	if len(list.Keys) != 0 {
+		res["items"] = list.Keys
+	}
+
+	ctx.Write(toJSON(res))
 }
 
 // PutInput ...

@@ -88,40 +88,37 @@ func (v *Vault) Set(input SetInput) error {
 }
 
 // Scan ...
-func (v *Vault) Scan(input ScanInput) (*KeyList, error) {
+func (v *Vault) Scan(input ScanInput) (KeyList, error) {
 	keyName := "secret/metadata/" + input.Prefix
+	kl := KeyList{}
 
 	fmt.Println(fmt.Sprintf("storage.vault.scan: %s", keyName))
 	resp, err := v.client.Logical().List(keyName)
 	if err != nil {
 		if strings.Contains(err.Error(), "Vault is sealed") {
-			return nil, errors.New("vault.list.fail: sealed")
+			return kl, errors.New("vault.list.fail: sealed")
 		}
 	}
 
 	if resp == nil || resp.Data["keys"] == nil {
-		return nil, nil
+		return kl, nil
 	}
 
 	keys, ok := resp.Data["keys"].([]interface{})
 	if !ok {
-		return nil, errors.New("vault.scan: failed to convert keys to []interface{}")
+		return kl, errors.New("vault.scan: failed to convert keys to []interface{}")
 	}
-
-	kl := KeyList{}
 
 	for _, key := range keys {
 		stringKey, ok := key.(string)
 		if !ok {
 			fmt.Println(fmt.Sprintf("storage.vault.scan.fail: unable to convert key string (%v)", key))
 		} else {
-			kl.Kvs = append(kl.Kvs, KeyValue{
-				Key: stringKey,
-			})
+			kl.Keys = append(kl.Keys, stringKey)
 		}
 	}
 
-	return &kl, nil
+	return kl, nil
 }
 
 func (v *Vault) Close() error {

@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"runtime/debug"
 
 	"github.com/usermirror/config-api/pkg/storage"
 
@@ -66,10 +67,11 @@ func (server *Server) Listen() error {
 
 func handlePanic(ctx *fasthttp.RequestCtx, err interface{}) {
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(fmt.Sprintf("server.panic: %s", err))
+		debug.PrintStack()
 		ctx.Write(toJSON(map[string]interface{}{
 			"error":   true,
-			"message": fmt.Sprintf("%e", err),
+			"message": fmt.Sprintf("%s", err),
 		}))
 	} else {
 		ctx.Write(toJSON(map[string]interface{}{
