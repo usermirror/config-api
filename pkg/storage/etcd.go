@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"github.com/coreos/etcd/clientv3"
@@ -69,7 +70,7 @@ func (e *Etcd) Scan(input ScanInput) (KeyList, error) {
 	}
 
 	for _, item := range resp.Kvs {
-		kl.Keys = append(kl.Keys, string(item.Key))
+		kl.Keys = append(kl.Keys, strings.Replace(string(item.Key), input.Prefix+"::", "", 1))
 	}
 
 	return kl, err
