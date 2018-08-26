@@ -1,6 +1,7 @@
 tmp
 gin-bin
 .DS_Store
+.vscode/
 *.tmp
 *.rdb
 *.log
