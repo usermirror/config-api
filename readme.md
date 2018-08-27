@@ -15,8 +15,25 @@
 
 <br/>
 
+## Installation
 
-| Database Name  | Database Type      | Supported? |
+You can either run the `config-api` with Go directly:
+
+```
+$ go get -u github.com/usermirror/config-api
+# start a supported storage backend, e.g. redis
+$ config-api --storage-backend redis
+```
+
+Or with Docker:
+
+```
+$ docker run -it -p 8888:8888 usermirror/config-api
+```
+
+## Storage Backends
+
+| Name           | Backend Type       | Supported? |
 | -------------- | ------------------ | ---------- |
 | Etcd           | Key-value Store    | **Yes!**   |
 | Redis          | Key-value Store    | **Yes!**   |
@@ -26,4 +43,3 @@
 | CockroachDB    | SQL Database       | Not yet    |
 | Memcached      | Key-value Store    | Not yet    |
 | MySQL          | SQL Database       | Not yet    |
-
