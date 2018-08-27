@@ -21,7 +21,8 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 	key := genKey(namespaceID, configID)
 
 	value, err := store.Get(storage.GetInput{
-		Key: key,
+		Key:     key,
+		Timeout: 1000,
 	})
 
 	var cachedConfig storage.Config
@@ -66,11 +67,12 @@ func ScanHandler(ctx *fasthttp.RequestCtx) {
 	namespaceID := ctx.UserValue("namespaceId").(string)
 
 	list, err := store.Scan(storage.ScanInput{
-		Prefix: namespaceID,
+		Prefix:  namespaceID,
+		Timeout: 1000,
 	})
 
 	if err != nil {
-		fmt.Println(fmt.Sprintf("handlers.config.scan: error: %e", err))
+		fmt.Println(fmt.Sprintf("handlers.config.scan: error: %s", err))
 		if strings.Contains(err.Error(), "sealed") {
 			// configType = "locked"
 		}
@@ -109,8 +111,9 @@ func PutHandler(ctx *fasthttp.RequestCtx) {
 	key := genKey(namespaceID, configID)
 
 	err := store.Set(storage.SetInput{
-		Key:   key,
-		Value: toJSON(input),
+		Key:     key,
+		Value:   toJSON(input),
+		Timeout: 1000,
 	})
 
 	if err != nil {
@@ -149,8 +152,9 @@ func PostHandler(ctx *fasthttp.RequestCtx) {
 	key := genKey(namespaceID, configID)
 
 	err := store.Set(storage.SetInput{
-		Key:   key,
-		Value: toJSON(input),
+		Key:     key,
+		Value:   toJSON(input),
+		Timeout: 1000,
 	})
 
 	if err != nil {

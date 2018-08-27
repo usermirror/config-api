@@ -20,6 +20,7 @@ func main() {
 		RedisPassword  string `conf:"redis-password" help:"Redis server password"`
 		VaultAddr      string `conf:"vault-addr" help:"Vault server address, default = localhost:8200"`
 		VaultToken     string `conf:"vault-token" help:"Vault root token"`
+		PostgresAddr   string `conf:"postgres-addr" help:"Postgres database address, default = postgres://postgres@localhost"`
 		StorageBackend string `conf:"storage-backend" help:"Default storage backend for configs, default = vault"`
 	}{
 		Addr:           ":8888",
@@ -27,6 +28,7 @@ func main() {
 		RedisAddr:      "localhost:6379",
 		VaultAddr:      "http://localhost:8200/",
 		VaultToken:     "1e7d2b9b-de0e-67a6-9362-6b9b01bf4e89",
+		PostgresAddr:   "postgres://postgres:@localhost:5432/postgres?sslmode=disable",
 		StorageBackend: "vault",
 	}
 
@@ -58,6 +60,7 @@ func main() {
 		RedisAddr:      config.RedisAddr,
 		VaultAddr:      config.VaultAddr,
 		VaultToken:     config.VaultToken,
+		PostgresAddr:   config.PostgresAddr,
 		StorageBackend: config.StorageBackend,
 	}
 
