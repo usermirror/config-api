@@ -1,10 +1,10 @@
 hash: b129427191437f7e3426801286b098e0a361ae898183a106a1499d00be20b7c3
-updated: 2018-08-16T12:08:38.441503-07:00
+updated: 2018-08-26T19:24:26.339202-07:00
 imports:
 - name: github.com/buaazp/fasthttprouter
   version: ade4e2031af3aed7fffd241084aad80a58faf421
 - name: github.com/coreos/etcd
-  version: 6890a9e633b0cdccdeaf65ccda3d84fb0838801f
+  version: af85949b416547ed0989b396a28fe77f65978828
   subpackages:
   - auth/authpb
   - clientv3
@@ -28,13 +28,13 @@ imports:
   subpackages:
   - capnslog
 - name: github.com/gogo/protobuf
-  version: 5e816401ac7168a24541712714d3d057341d7b46
+  version: 98f6aa8b3bcf03e45b1a8b48257c754766d5c3c8
   subpackages:
   - gogoproto
   - proto
   - protoc-gen-gogo/descriptor
 - name: github.com/golang/protobuf
-  version: aa810b61a9c79d51363740d207bb46cf8e620ed5
+  version: b27b920f9e71b439b873b17bf99f56467623814a
   subpackages:
   - proto
   - ptypes
@@ -44,15 +44,15 @@ imports:
 - name: github.com/golang/snappy
   version: 2e65f85255dbc3072edf28d6b5b8efc472979f5a
 - name: github.com/grpc-ecosystem/go-grpc-middleware
-  version: e9c5d9645c437ab1b204cff969a2c0fb16cd4276
+  version: 15ea7401d63d2d8c2f17472d22359564615a9f7a
   subpackages:
   - util/backoffutils
 - name: github.com/hashicorp/errwrap
-  version: d6c0cd88035724dd42e0f335ae30161c20575ecc
+  version: 8a6fb523712970c966eefc6b39ed2c5e74880354
 - name: github.com/hashicorp/go-cleanhttp
   version: d5fe4b57a186c716b0e00b8c301cbd9b4182694d
 - name: github.com/hashicorp/go-multierror
-  version: 3d5d8f294aa03d8e98859feac328afbdf1ae0703
+  version: 886a7fbe3eb1c874d46f623bfa70af45f425b3d1
 - name: github.com/hashicorp/go-retryablehttp
   version: e651d75abec6fbd4f2c09508f72ae7af8a8b7171
 - name: github.com/hashicorp/go-rootcerts
@@ -60,7 +60,7 @@ imports:
 - name: github.com/hashicorp/go-sockaddr
   version: 6d291a969b86c4b633730bfc6b8b9d64c3aafed9
 - name: github.com/hashicorp/hcl
-  version: ef8a98b0bbce4a65b5aa4c368430a80ddc533168
+  version: 8cb6e5b959231cc1119e43259c4a608f9c51a241
   subpackages:
   - hcl/ast
   - hcl/parser
@@ -71,10 +71,11 @@ imports:
   - json/scanner
   - json/token
 - name: github.com/hashicorp/vault
-  version: 801eddf5f868dec54fb8aedade12d38cd9b1c8df
+  version: fc66bb3d71e9d22172920d65b27bbfec81b57f45
   subpackages:
   - api
   - helper/compressutil
+  - helper/consts
   - helper/hclutil
   - helper/jsonutil
   - helper/parseutil
@@ -89,10 +90,14 @@ imports:
   - zlib
 - name: github.com/klauspost/cpuid
   version: e7e905edc00ea8827e58662220139109efea09db
+- name: github.com/lib/pq
+  version: 4ded0e9383f75c197b3a2aaa6d590ac52df6fd79
+  subpackages:
+  - oid
 - name: github.com/mitchellh/go-homedir
-  version: 58046073cbffe2f25d425fe1331102f55cf719de
+  version: ae18d6b8b3205b561c79e8e5f69bff09736185f4
 - name: github.com/mitchellh/mapstructure
-  version: f15292f7a699fcc1a38a80977f80a046874ba8ac
+  version: fa473d140ef3c6adf42d6b391fe76707f1f243c8
 - name: github.com/ryanuber/go-glob
   version: 256dc444b735e061061cf46c809487313d5b0065
 - name: github.com/segmentio/conf
@@ -138,7 +143,7 @@ imports:
   - internal/exit
   - zapcore
 - name: golang.org/x/net
-  version: aaf60122140d3fcf75376d319f0554393160eb50
+  version: 8a410e7b638dca158bf9e766925842f6651ff828
   subpackages:
   - context
   - http/httpguts
@@ -148,7 +153,7 @@ imports:
   - internal/timeseries
   - trace
 - name: golang.org/x/sys
-  version: 1c9583448a9c3aa0f9a6a5241bf73c0bd8aafded
+  version: 4910a1d54f876d7b22162a85f4d066d3ee649450
   subpackages:
   - unix
 - name: golang.org/x/text
@@ -163,11 +168,11 @@ imports:
   subpackages:
   - rate
 - name: google.golang.org/genproto
-  version: d0a8f471bba2dbb160885b0000d814ee5d559bad
+  version: c66870c02cf823ceb633bcd05be3c7cda29976f4
   subpackages:
   - googleapis/rpc/status
 - name: google.golang.org/grpc
-  version: 9907ae0e57ce159e835381ed54eb271206bf7b12
+  version: e00d24941bcee35dd163f4377d5371349f14baaf
   subpackages:
   - balancer
   - balancer/base

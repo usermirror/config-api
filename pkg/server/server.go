@@ -24,6 +24,8 @@ type Server struct {
 	VaultAddr string
 	// VaultToken is root token for vault to read/write secure configurations.
 	VaultToken string
+	// PostgresAddr is the address of the running postgres database.
+	PostgresAddr string
 }
 
 // Listen starts the proxy server
@@ -33,10 +35,21 @@ func (server *Server) Listen() error {
 		if etcd, err := storage.NewEtcd(server.EtcdAddr); err == nil {
 			store = etcd
 			defer etcd.Close()
+		} else {
+			panic(err)
+		}
+	case "postgres":
+		if postgres, err := storage.NewPostgres(server.PostgresAddr); err == nil {
+			store = postgres
+			defer postgres.Close()
+		} else {
+			panic(err)
 		}
 	case "vault":
 		if vault, err := storage.NewVault(server.VaultAddr, server.VaultToken); err == nil {
 			store = vault
+		} else {
+			panic(err)
 		}
 	default:
 		// Use default redis backend
