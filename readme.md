@@ -1,10 +1,5 @@
-<h2 align="center">
-  config-api
-</h2>
-
 <p align="center">
-  Simple configuration API service backed by<br/>
-  high-performance KV stores and durable SQL databases.
+  <strong>config-api</strong>
 </p>
 
 <p align="center">
@@ -12,19 +7,23 @@
     <img src="https://travis-ci.org/usermirror/config-api.svg?branch=master">
   </a>
 </p>
+
+<p align="center">
+  Simple configuration API service backed by<br/>
+  high-performance KV stores and durable SQL databases.
+</p>
+
 <br/>
 
-#### Currently Supported
 
-- Redis
-- Etcd
-- Vault (for secrets)
-- PostgreSQL
-
-#### On the Roadmap
-
-- MySQL
-- Cassandra
-- Memcached
-- Cockroachdb
+| Database Name  | Database Type      | Supported? |
+| -------------- | ------------------ | ---------- |
+| Etcd           | Key-value Store    | **Yes!**   |
+| Redis          | Key-value Store    | **Yes!**   |
+| Vault          | Key-value Store    | **Yes!**   |
+| Postgres       | SQL Database       | **Yes!**   |
+| Cassandra      | SQL Columnn Store  | Not yet    |
+| CockroachDB    | SQL Database       | Not yet    |
+| Memcached      | Key-value Store    | Not yet    |
+| MySQL          | SQL Database       | Not yet    |
 
