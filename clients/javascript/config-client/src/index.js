@@ -26,17 +26,31 @@ ConfigClient.prototype.get = function getConfig(opts) {
 
   const namespaceId = opts.namespaceId || this.namespaceId
   const configId = opts.configId
+  const format = opts.format
 
   const response = this.client({
     method: 'get',
     url: getPath({ namespaceId, configId })
   })
 
-  if (!opts.raw) {
-    return response.then(r => r.data)
+  // return as native Response object
+  if (format === 'response') {
+    return response
   }
 
-  return response
+  const dataPromise = response.then(r => r.data)
+
+  // return as raw JSON response from server
+  if (format === 'raw') {
+    return dataPromise
+  }
+
+  // otherwise, format as a config value, { ...body, __type }
+  return dataPromise.then(result => {
+    const { type, body } = result
+
+    return Object.assign({}, body, { __type: type })
+  })
 }
 
 ConfigClient.prototype.set = function setConfig(opts) {

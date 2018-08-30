@@ -1,7 +1,7 @@
 {
   "name": "config-client",
-  "version": "0.2.2",
-  "description": "JavaScript client for working with a config-api",
+  "version": "0.3.0",
+  "description": "JavaScript client for working with a config-api server",
   "main": "src/index.js",
   "scripts": {
     "test": "ava",
