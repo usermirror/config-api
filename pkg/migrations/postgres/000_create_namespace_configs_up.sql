@@ -1,4 +1,4 @@
-CREATE TABLE "public"."namespace_configs"
+CREATE TABLE IF NOT EXISTS "public"."namespace_configs"
 (
   "key" bytea,
   "value" bytea,

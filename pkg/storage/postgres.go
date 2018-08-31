@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/usermirror/config-api/pkg/migrations"
+
 	// add postgres driver
 	_ "github.com/lib/pq"
 )
@@ -29,6 +31,17 @@ type Postgres struct {
 
 // implements Store interface
 var _ Store = new(Postgres)
+
+func (p *Postgres) Init() error {
+	migrationSQL, err := migrations.GetSQL("postgres", "up", -1)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(migrationSQL)
+
+	return nil
+}
 
 func (p *Postgres) Get(input GetInput) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(input.Timeout)*time.Millisecond)

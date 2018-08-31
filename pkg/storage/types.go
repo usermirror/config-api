@@ -2,6 +2,7 @@ package storage
 
 // Store allows persistence of arbitrary data.
 type Store interface {
+	Init() error
 	Get(input GetInput) ([]byte, error)
 	Set(input SetInput) error
 	Scan(input ScanInput) (KeyList, error)
