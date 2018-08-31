@@ -35,6 +35,10 @@ var _ Store = new(Vault)
 
 const valueKey = "value"
 
+func (v *Vault) Init() error {
+	return nil
+}
+
 func (v *Vault) Get(input GetInput) ([]byte, error) {
 	keyName := "secret/data/" + strings.Replace(input.Key, "::", "-", 1)
 

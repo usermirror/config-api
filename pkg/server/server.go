@@ -42,6 +42,9 @@ func (server *Server) Listen() error {
 		if postgres, err := storage.NewPostgres(server.PostgresAddr); err == nil {
 			store = postgres
 			defer postgres.Close()
+			if err = postgres.Init(); err != nil {
+				panic(err)
+			}
 		} else {
 			panic(err)
 		}

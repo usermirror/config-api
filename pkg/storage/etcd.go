@@ -31,6 +31,10 @@ type Etcd struct {
 // implements Store interface
 var _ Store = new(Etcd)
 
+func (e *Etcd) Init() error {
+	return nil
+}
+
 func (e *Etcd) Get(input GetInput) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()

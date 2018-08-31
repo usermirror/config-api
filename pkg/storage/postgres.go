@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/usermirror/config-api/pkg/migrations/postgres"
+
 	// add postgres driver
 	_ "github.com/lib/pq"
 )
@@ -29,6 +31,23 @@ type Postgres struct {
 
 // implements Store interface
 var _ Store = new(Postgres)
+
+func (p *Postgres) Init() error {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	if migrationSQL, err := postgres.GetSQL("up", 0); err != nil {
+		return err
+	} else {
+		if _, err = p.DB.ExecContext(ctx, migrationSQL); err != nil {
+			return err
+		}
+	}
+
+	fmt.Println("storage.postgres.init: up-to-date schema")
+
+	return nil
+}
 
 func (p *Postgres) Get(input GetInput) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(input.Timeout)*time.Millisecond)

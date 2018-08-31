@@ -14,6 +14,10 @@ type Redis struct{}
 // implements Store interface
 var _ Store = Redis{}
 
+func (r Redis) Init() error {
+	return nil
+}
+
 // Get ...
 func (Redis) Get(input GetInput) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
