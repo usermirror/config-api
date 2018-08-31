@@ -19,6 +19,7 @@ docker-build:
 docker-push:
 	@echo "🛫 Docker Hub · $(HASH)"
 	@docker push $(DOCKERHUB_IMAGE):$(HASH)
+	@docker push $(DOCKERHUB_IMAGE):latest
 	@echo "🛬 Docker Hub · $(DOCKERHUB_IMAGE):$(HASH)"
 
 gcr-push:
