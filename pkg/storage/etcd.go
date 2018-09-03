@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"errors"
 	"strings"
 	"time"
 
@@ -82,4 +83,8 @@ func (e *Etcd) Scan(input ScanInput) (KeyList, error) {
 
 func (e *Etcd) Close() error {
 	return e.client.Close()
+}
+
+func (e *Etcd) CheckAuth(AuthInput) error {
+	return errors.New("operation not supported by this provider")
 }

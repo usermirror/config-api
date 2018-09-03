@@ -15,6 +15,7 @@ import (
 func main() {
 	config := struct {
 		Addr           string `conf:"addr" help:"Address where to bind the service, default = :8888"`
+		CheckAuth      bool   `conf:"check-auth" help:"Use store to verify that a write token is correct, default = true"`
 		EtcdAddr       string `conf:"etcd-addr" help:"etcd client port, default = secret-store-etcd-client:2379"`
 		RedisAddr      string `conf:"redis-addr" help:"Redis server address, default = localhost:6379"`
 		RedisPassword  string `conf:"redis-password" help:"Redis server password"`
@@ -24,6 +25,7 @@ func main() {
 		StorageBackend string `conf:"storage-backend" help:"Default storage backend for configs, default = vault"`
 	}{
 		Addr:           ":8888",
+		CheckAuth:      true,
 		EtcdAddr:       "localhost:2379",
 		RedisAddr:      "localhost:6379",
 		VaultAddr:      "http://localhost:8200/",
@@ -56,6 +58,7 @@ func main() {
 
 	s := &server.Server{
 		Addr:           config.Addr,
+		CheckAuth:      config.CheckAuth,
 		EtcdAddr:       config.EtcdAddr,
 		RedisAddr:      config.RedisAddr,
 		VaultAddr:      config.VaultAddr,

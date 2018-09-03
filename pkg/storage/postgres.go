@@ -129,3 +129,34 @@ func (p *Postgres) Scan(input ScanInput) (KeyList, error) {
 func (p *Postgres) Close() error {
 	return p.DB.Close()
 }
+
+func (p *Postgres) CheckAuth(input AuthInput) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	namespace := input.Namespace
+	stmt := `
+		SELECT token
+		FROM namespaces
+		WHERE namespace_id=?`
+	rows, err := p.DB.QueryContext(ctx, stmt, namespace)
+	if err != nil {
+		return fmt.Errorf("failed to execute query checking auth for namespace '%s': %v", namespace, err)
+	}
+	defer rows.Close()
+
+	// token not set, allow the write
+	if !rows.Next() {
+		return nil
+	}
+
+	var token string
+	if err = rows.Scan(&token); err != nil {
+		return fmt.Errorf("could not read token for namespace '%s': %v", namespace, err)
+	}
+
+	if token != input.Token {
+		return fmt.Errorf("token for namespace '%s' did not match request", namespace)
+	}
+	return nil
+}
