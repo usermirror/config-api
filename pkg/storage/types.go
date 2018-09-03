@@ -6,6 +6,13 @@ type Store interface {
 	Get(input GetInput) ([]byte, error)
 	Set(input SetInput) error
 	Scan(input ScanInput) (KeyList, error)
+	CheckAuth(input AuthInput) error
+}
+
+// AuthInput requests whether an operation is allowed.
+type AuthInput struct {
+	Namespace string
+	Token     string
 }
 
 // GetInput is a request to read data from a Store.

@@ -1,8 +1,11 @@
 package server
 
 import (
+	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
 	"strings"
 
 	"github.com/segmentio/ksuid"
@@ -13,8 +16,10 @@ import (
 
 var store storage.Store = new(storage.Redis)
 
+var authPrefix = []byte("Bearer ")
+
 // GetHandler ...
-func GetHandler(ctx *fasthttp.RequestCtx) {
+func (server *Server) GetHandler(ctx *fasthttp.RequestCtx) {
 	namespaceID := ctx.UserValue("namespaceId").(string)
 	configID := ctx.UserValue("configId").(string)
 
@@ -63,7 +68,7 @@ func GetHandler(ctx *fasthttp.RequestCtx) {
 }
 
 // ScanHandler ...
-func ScanHandler(ctx *fasthttp.RequestCtx) {
+func (server *Server) ScanHandler(ctx *fasthttp.RequestCtx) {
 	namespaceID := ctx.UserValue("namespaceId").(string)
 
 	list, err := store.Scan(storage.ScanInput{
@@ -100,8 +105,21 @@ type PutInput struct {
 }
 
 // PutHandler ...
-func PutHandler(ctx *fasthttp.RequestCtx) {
+func (server *Server) PutHandler(ctx *fasthttp.RequestCtx) {
 	namespaceID := ctx.UserValue("namespaceId").(string)
+	if server.CheckAuth {
+		if token, err := getAuthHeader(ctx.Request.Header); err != nil {
+			writeError(err, ctx)
+			return
+		} else if err = store.CheckAuth(storage.AuthInput{
+			Namespace: namespaceID,
+			Token:     token,
+		}); err != nil {
+			writeError(err, ctx)
+			return
+		}
+	}
+
 	configID := ctx.UserValue("configId").(string)
 	body := ctx.PostBody()
 
@@ -140,8 +158,21 @@ type PostInput struct {
 }
 
 // PostHandler ...
-func PostHandler(ctx *fasthttp.RequestCtx) {
+func (server *Server) PostHandler(ctx *fasthttp.RequestCtx) {
 	namespaceID := ctx.UserValue("namespaceId").(string)
+	if server.CheckAuth {
+		if token, err := getAuthHeader(ctx.Request.Header); err != nil {
+			writeError(err, ctx)
+			return
+		} else if err = store.CheckAuth(storage.AuthInput{
+			Namespace: namespaceID,
+			Token:     token,
+		}); err != nil {
+			writeError(err, ctx)
+			return
+		}
+	}
+
 	configID := fmt.Sprintf("con_%s", ksuid.New().String())
 	body := ctx.PostBody()
 
@@ -187,4 +218,19 @@ func toJSON(i interface{}) []byte {
 
 func genKey(a string, b string) string {
 	return fmt.Sprintf("%s::%s", a, b)
+}
+
+func getAuthHeader(h fasthttp.RequestHeader) (string, error) {
+	auth := h.Peek("Authorization")
+	if bytes.HasPrefix(auth, authPrefix) {
+		return string(auth[len(authPrefix):]), nil
+	}
+	return "", errors.New("error parsing authorization header")
+}
+
+func writeError(err error, writer io.Writer) {
+	writer.Write(toJSON(map[string]interface{}{
+		"error":   true,
+		"message": err.Error(),
+	}))
 }

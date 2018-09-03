@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -50,4 +51,8 @@ func (Redis) Set(input SetInput) error {
 
 func (Redis) Scan(input ScanInput) (KeyList, error) {
 	return KeyList{}, nil
+}
+
+func (Redis) CheckAuth(input AuthInput) error {
+	return errors.New("operation not supported by this provider")
 }

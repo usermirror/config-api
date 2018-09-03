@@ -141,3 +141,7 @@ func toBytes(value interface{}) ([]byte, error) {
 
 	return []byte(str), nil
 }
+
+func (v *Vault) CheckAuth(AuthInput) error {
+	return errors.New("operation not supported by this provider")
+}
