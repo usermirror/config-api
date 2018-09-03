@@ -8,6 +8,7 @@ import (
 
 var migrations = []schema.Migration{
 	createNamespaceConfigs,
+	createNamespaces,
 }
 
 // GetSQL returns the migration SQL for postgres
