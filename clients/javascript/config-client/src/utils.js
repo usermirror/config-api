@@ -10,9 +10,18 @@ function getOptions(opts) {
 }
 
 function getPath(opts) {
-  const { namespaceId, configId } = opts
+  const { namespaceId, configId, path } = opts
+  const pathParts = ['/namespaces/', namespaceId]
 
-  return ['/namespaces/', namespaceId, '/configs/', configId].join('')
+  if (configId) {
+    pathParts.push('/configs/' + configId)
+  }
+
+  if (path) {
+    pathParts.push(path)
+  }
+
+  return pathParts.join('')
 }
 
 module.exports = {

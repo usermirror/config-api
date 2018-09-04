@@ -9,10 +9,23 @@ test('new client without error', t => {
 })
 
 const shouldTestRealAPI = process.env.REAL || process.env.real
+const host = process.env.CONFIG_API_ADDR || 'http://localhost:8888'
 
 if (shouldTestRealAPI) {
+  test('test list', async t => {
+    const client = new ConfigClient({ host, namespaceId: 'nsc_123' })
+    const configId = analyticsId({ prefix: 'cfg' })
+
+    await client.set({ configId, data: { type: 'banner' } })
+
+    const { type, items } = await client.list()
+
+    t.is(type, 'list')
+    t.truthy(items.length > 0)
+  })
+
   test('test create', async t => {
-    const client = new ConfigClient({ namespaceId: 'nsc_123' })
+    const client = new ConfigClient({ host, namespaceId: 'nsc_123' })
     const configId = analyticsId({ prefix: 'cfg' })
 
     const { __type: type1 } = await client.get({ configId })
@@ -27,7 +40,7 @@ if (shouldTestRealAPI) {
   })
 
   test('test raw create', async t => {
-    const client = new ConfigClient({ namespaceId: 'nsc_123' })
+    const client = new ConfigClient({ host, namespaceId: 'nsc_123' })
     const configId = analyticsId({ prefix: 'cfg' })
 
     const { type: type1 } = await client.get({ configId, format: 'raw' })
@@ -42,7 +55,7 @@ if (shouldTestRealAPI) {
   })
 
   test('test 10 updates in under 50ms', async t => {
-    const client = new ConfigClient({ namespaceId: 'nsc_123' })
+    const client = new ConfigClient({ host, namespaceId: 'nsc_123' })
     const configId = analyticsId({ prefix: 'cfg' })
 
     const beginTs = timestamp()
