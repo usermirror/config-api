@@ -59,6 +59,9 @@ func (p *Postgres) Get(input GetInput) ([]byte, error) {
 	err := p.DB.QueryRowContext(ctx, stmt, input.Key).Scan(&value)
 
 	if err != nil {
+		if strings.Contains(err.Error(), "no rows in result set") {
+			return nil, nil
+		}
 		return nil, err
 	}
 
@@ -137,8 +140,8 @@ func (p *Postgres) CheckAuth(input AuthInput) error {
 	namespace := input.Namespace
 	stmt := `
 		SELECT write_tokens
-		FROM namespaces
-		WHERE namespace_id=?`
+		FROM namespace_tokens
+		WHERE namespace_id = $1;`
 	rows, err := p.DB.QueryContext(ctx, stmt, namespace)
 	if err != nil {
 		return fmt.Errorf("failed to execute query checking auth for namespace '%s': %v", namespace, err)
