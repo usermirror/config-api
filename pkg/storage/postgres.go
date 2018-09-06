@@ -136,7 +136,7 @@ func (p *Postgres) CheckAuth(input AuthInput) error {
 
 	namespace := input.Namespace
 	stmt := `
-		SELECT token
+		SELECT write_tokens
 		FROM namespaces
 		WHERE namespace_id=?`
 	rows, err := p.DB.QueryContext(ctx, stmt, namespace)

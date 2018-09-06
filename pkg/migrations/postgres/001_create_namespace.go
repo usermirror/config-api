@@ -10,7 +10,7 @@ var createNamespaces = schema.Migration{
 	Up: func() string {
 		return `CREATE TABLE IF NOT EXISTS "public"."namespaces" (
 	"namespace_id" bytea,
-	"token" bytea,
+	"write_tokens" bytea,
 	PRIMARY KEY (namespace_id)
 );`
 	},
