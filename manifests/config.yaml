@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: deploy-config
+data:
+  config-api: |
+    sql_db_password: "changeme"
