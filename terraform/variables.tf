@@ -27,6 +27,18 @@ variable "sql_db_password" {
   default     = "changeme"
 }
 
+variable "image_repo" {
+  description = "Image repository for config-api"
+  type        = "string"
+  default     = "us.gcr.io/usermirror-staging/config-api"
+}
+
+variable "image_tag" {
+  description = "Image tag for config-api"
+  type        = "string"
+  default     = "latest"
+}
+
 variable "last_resource" {
   description = "Allows dependency to be expressed to module"
   type        = "string"

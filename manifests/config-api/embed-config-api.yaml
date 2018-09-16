@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: config-api
-          image: usermirror/config-api:latest
+          image: ${image_repo}:${image_tag}
           env:
             - name: CONFIG_API_STORAGE_BACKEND
               value: postgres

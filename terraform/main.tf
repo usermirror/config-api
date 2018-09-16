@@ -21,6 +21,9 @@ module "config" {
 
   vars = {
     sql_db_password = "${var.sql_db_password}"
+
+    image_repo = "${var.image_repo}"
+    image_tag  = "${var.image_tag}"
   }
 }
 
