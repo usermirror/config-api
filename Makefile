@@ -1,7 +1,7 @@
 NAME=config-api
 DEPLOYMENT=deployment/$(NAME)
 GOCMD=go
-GET_HASH=$(GOCMD) run $(GOPATH)/src/github.com/segmentio/ksuid/cmd/ksuid/main.go
+GET_HASH=git rev-parse HEAD
 HASH:=$(shell $(GET_HASH))
 GCP_PROJECT=um-west1-prod
 GCR_REPO=us.gcr.io/$(GCP_PROJECT)/$(NAME)
@@ -19,13 +19,17 @@ docker-build:
 docker-push:
 	@echo "🛫 Docker Hub · $(HASH)"
 	@docker push $(DOCKERHUB_IMAGE):$(HASH)
-	@docker push $(DOCKERHUB_IMAGE):latest
 	@echo "🛬 Docker Hub · $(DOCKERHUB_IMAGE):$(HASH)"
 
 gcr-push:
 	@echo "🛫 GCR · $(HASH)"
 	@gcloud docker -- push $(GCR_REPO) > /dev/null
 	@echo "🛬 GCR · $(GCR_REPO):$(HASH)"
+
+gcr-push-latest:
+	@echo "🛫 GCR · latest"
+	@gcloud docker -- push $(GCR_REPO):latest > /dev/null
+	@echo "🛬 GCR · $(GCR_REPO):latest"
 
 rollout-status:
 	kubectl rollout status $(DEPLOYMENT)
