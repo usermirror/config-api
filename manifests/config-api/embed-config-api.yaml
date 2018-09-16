@@ -22,7 +22,7 @@ spec:
             - name: CONFIG_API_STORAGE_BACKEND
               value: postgres
             - name: CONFIG_API_POSTGRES_ADDR
-              value: postgres://huv_user:${sql_db_password}@localhost:3306/huv-db?sslmode=disable
+              value: postgres://huv_user:${sql_db_password}@localhost:3306/huv_db?sslmode=disable
           ports:
             - name: embed-config
               containerPort: 8888
