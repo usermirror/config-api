@@ -25,7 +25,8 @@ module "config-api" {
   manifests_dir = "${local.manifests_dir}"
   render_dir    = "${local.render_dir}"
 
-  last_resource = "${module.cloudsql_db.sql_access_key}"
+  sql_db_password = "${var.sql_db_password}"
+  last_resource   = "${module.cloudsql_db.sql_access_key}"
 }
 
 // cloudsql_db creates a user, database, and access credentials on a PostgreSQL instance.
