@@ -18,6 +18,10 @@ module "config" {
   render_dir   = "${local.render_dir}"
   config       = "${local.config_path}${local.last}" // TODO: remove once module dependency can be improved
   manifest_dir = "${local.manifests_dir}"
+
+  vars = {
+    sql_db_password = "${var.sql_db_password}"
+  }
 }
 
 module "kubernetes" {

@@ -21,6 +21,12 @@ variable "kubeconfig" {
   type        = "string"
 }
 
+variable "sql_db_password" {
+  description = "Password for the SQL user used to perform writes."
+  type        = "string"
+  default     = "changeme"
+}
+
 variable "last_resource" {
   description = "Allows dependency to be expressed to module"
   type        = "string"
