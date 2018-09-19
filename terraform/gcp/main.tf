@@ -31,7 +31,7 @@ module "config-api" {
 
 // cloudsql_db creates a user, database, and access credentials on a PostgreSQL instance.
 module "cloudsql_db" {
-  source = "git::https://github.com/helpusersvote/terraform-kubernetes-helpusersvote.git//modules/cloudsql_db"
+  source = "git::https://github.com/helpusersvote/terraform-kubernetes-helpusersvote.git//modules/cloudsql_db?ref=v0.0.1"
 
   render_dir = "${local.manifests_dir}/config-api"
 
