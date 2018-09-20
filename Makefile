@@ -14,6 +14,7 @@ build:
 docker-build:
 	@echo "Building... ($(HASH))"
 	@docker build -t $(DOCKERHUB_IMAGE):$(HASH) -t $(DOCKERHUB_IMAGE):latest  .
+	@docker tag $(DOCKERHUB_IMAGE):$(HASH) $(GCR_REPO):$(HASH)
 	@echo "Built complete ($(HASH))"
 
 docker-push:

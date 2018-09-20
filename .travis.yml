@@ -9,25 +9,29 @@ env:
   - TERRAFORM_VERSION=0.11.8
   - KUBECTL_VERSION=v1.11.2
   # Key for Gcloud Service account (decrypted in before_install)
-  - TF_VAR_gcloud_creds=./google-account.json
+  - TF_VAR_gcloud_creds=${TRAVIS_BUILD_DIR}/google-account.json
   - TF_VAR_image_repo=us.gcr.io/usermirror-staging/config-api
+  - TF_VAR_image_tag=${TRAVIS_COMMIT}
+  - TF_VAR_cluster_project=usermirror-staging
+  - TF_VAR_sql_service_account_email=test@email.cloud.google.com
+  - TF_VAR_sql_connection_name=test-connection
+  - TF_VAR_sql_instance_id=test-instance
+  - TF_VAR_sql_db_password=test-pass
+  - TF_VAR_kubeconfig=test-kubeconfig
 
 before_install:
-- curl -L https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip | funzip >test/terraform
-- curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl >kubectl
-- sudo install ./kubectl ./test/terraform /usr/local/bin
-- openssl aes-256-cbc -K ${encrypted_c579a9585696_key} -iv ${encrypted_c579a9585696_iv} -in ./test/usermirror-staging.json -out ${TF_VAR_gcloud_creds} -d
+- mkdir tmp
+- curl -L https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip | funzip >tmp/terraform
+- curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl >tmp/kubectl
+- sudo install ./tmp/kubectl ./tmp/terraform /usr/local/bin && rm -rf ./tmp
+- openssl aes-256-cbc -K ${encrypted_c579a9585696_key} -iv ${encrypted_c579a9585696_iv} -in ${TRAVIS_BUILD_DIR}/test/config-api-staging.json -out ${TF_VAR_gcloud_creds} -d
 
 install:
 - (cd terraform/gcp && terraform init)
-- make docker-build
-
-before_script:
-- (cd terraform/gcp && TF_VAR_image_tag=${TRAVIS_COMMIT} terraform plan)
-- make gcr-push
+- make docker-build GCP_PROJECT=${TF_VAR_cluster_project}
 
 script:
-- (cd terraform/gcp && TF_VAR_image_tag=${TRAVIS_COMMIT} terraform apply -auto-approve)
-
-after_script:
-- (cd terraform/gcp && TF_VAR_image_tag=${TRAVIS_COMMIT} terraform destroy -auto-approve)
+- (cd terraform/gcp && TF_VAR_image_tag=${TRAVIS_COMMIT} terraform plan)
+- gcloud auth activate-service-account --key-file=${TF_VAR_gcloud_creds}
+- mkdir ~/.docker && gcloud beta auth configure-docker --quiet
+- make gcr-push GCP_PROJECT=${TF_VAR_cluster_project}
