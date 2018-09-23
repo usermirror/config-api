@@ -12,7 +12,7 @@ locals {
 }
 
 module "config" {
-  source = "git::https://github.com/helpusersvote/terraform-kubernetes-helpusersvote.git//modules/config?ref=v0.0.2"
+  source = "git::https://github.com/helpusersvote/terraform-kubernetes-helpusersvote.git//modules/config?ref=v0.0.5"
 
   components   = ["config-api"]
   render_dir   = "${local.render_dir}"
@@ -28,7 +28,7 @@ module "config" {
 }
 
 module "kubernetes" {
-  source = "git::https://github.com/helpusersvote/terraform-kubernetes-helpusersvote.git//modules/kubernetes?ref=v0.0.2"
+  source = "git::https://github.com/helpusersvote/terraform-kubernetes-helpusersvote.git//modules/kubernetes?ref=v0.0.5"
 
   manifest_dirs = "${module.config.dirs}"
   kubeconfig    = "${var.kubeconfig}"
