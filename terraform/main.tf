@@ -24,6 +24,8 @@ module "config" {
 
     image_repo = "${var.image_repo}"
     image_tag  = "${var.image_tag}"
+
+    domain = "${var.domain}"
   }
 }
 
