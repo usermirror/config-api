@@ -65,6 +65,7 @@ func (server *Server) Listen() error {
 	fmt.Println(fmt.Sprintf("server.config: using %s as default storage backend", server.StorageBackend))
 
 	router := fasthttprouter.New()
+	exporter := newPromExporter("fasthttp")
 
 	router.PanicHandler = handlePanic
 
@@ -80,7 +81,7 @@ func (server *Server) Listen() error {
 	router.PUT("/v1/namespaces/:namespaceId/configs/:configId", CORS(server.PutHandler))
 
 	fmt.Println(fmt.Sprintf("server.listen: %s", server.Addr))
-	return fasthttp.ListenAndServe(server.Addr, router.Handler)
+	return fasthttp.ListenAndServe(server.Addr, exporter.SetupMiddleware(router))
 }
 
 func handlePanic(ctx *fasthttp.RequestCtx, err interface{}) {
