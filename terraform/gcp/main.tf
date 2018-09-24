@@ -25,6 +25,7 @@ module "config-api" {
   manifests_dir = "${local.manifests_dir}"
   render_dir    = "${local.render_dir}"
 
+  domain          = "${var.domain}"
   image_tag       = "${var.image_tag}"
   image_repo      = "${var.image_repo}"
   sql_db_password = "${var.sql_db_password}"

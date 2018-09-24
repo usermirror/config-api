@@ -70,3 +70,9 @@ variable "image_tag" {
   type        = "string"
   default     = "latest"
 }
+
+variable "domain" {
+  description = "Domain which is used in configuring ingresses"
+  type        = "string"
+  default     = "staging.helpusersvote.com"
+}
