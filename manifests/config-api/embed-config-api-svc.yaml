@@ -4,10 +4,11 @@ metadata:
   name: embed-config-api
   labels:
     app: embed-config-api
+    um-component: config-api
 spec:
   type: LoadBalancer
   ports:
-  - name: embed-config
+  - name: http
     targetPort: 8888
     port: 80
   selector:
