@@ -222,6 +222,10 @@ func genKey(a string, b string) string {
 
 func getAuthHeader(h fasthttp.RequestHeader) (string, error) {
 	auth := h.Peek("Authorization")
+	if len(auth) == 0 {
+		return "", nil
+	}
+
 	if bytes.HasPrefix(auth, authPrefix) {
 		return string(auth[len(authPrefix):]), nil
 	}

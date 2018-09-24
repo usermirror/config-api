@@ -14,15 +14,15 @@ import (
 
 func main() {
 	config := struct {
-		Addr           string `conf:"addr" help:"Address where to bind the service, default = :8888"`
-		CheckAuth      bool   `conf:"check-auth" help:"Use store to verify that a write token is correct, default = true"`
-		EtcdAddr       string `conf:"etcd-addr" help:"etcd client port, default = secret-store-etcd-client:2379"`
-		RedisAddr      string `conf:"redis-addr" help:"Redis server address, default = localhost:6379"`
+		Addr           string `conf:"addr" help:"Address where to bind the service"`
+		CheckAuth      bool   `conf:"check-auth" help:"Use store to verify that a write token is correct"`
+		EtcdAddr       string `conf:"etcd-addr" help:"etcd client port"`
+		RedisAddr      string `conf:"redis-addr" help:"Redis server address"`
 		RedisPassword  string `conf:"redis-password" help:"Redis server password"`
-		VaultAddr      string `conf:"vault-addr" help:"Vault server address, default = localhost:8200"`
+		VaultAddr      string `conf:"vault-addr" help:"Vault server address"`
 		VaultToken     string `conf:"vault-token" help:"Vault root token"`
-		PostgresAddr   string `conf:"postgres-addr" help:"Postgres database address, default = postgres://postgres@localhost"`
-		StorageBackend string `conf:"storage-backend" help:"Default storage backend for configs, default = vault"`
+		PostgresAddr   string `conf:"postgres-addr" help:"Postgres database address"`
+		StorageBackend string `conf:"storage-backend" help:"Default storage backend for configs"`
 	}{
 		Addr:           ":8888",
 		CheckAuth:      true,
