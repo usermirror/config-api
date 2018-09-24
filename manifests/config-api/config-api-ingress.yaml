@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: argo-tunnel
+  labels:
+    ingress: argo-tunnel
+  name: ${_name}
+spec:
+  rules:
+  - host: ${_name}.${domain}
+    http:
+      paths:
+      - backend:
+          serviceName: ${_name}
+          servicePort: http
