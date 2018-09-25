@@ -3,7 +3,7 @@ DEPLOYMENT=deployment/$(NAME)
 GOCMD=go
 GET_HASH=git rev-parse HEAD
 HASH:=$(shell $(GET_HASH))
-GCP_PROJECT=um-west1-prod
+GCP_PROJECT=usermirror-staging
 GCR_REPO=us.gcr.io/$(GCP_PROJECT)/$(NAME)
 DOCKERHUB_ORG=usermirror
 DOCKERHUB_IMAGE=$(DOCKERHUB_ORG)/$(NAME)
@@ -15,6 +15,7 @@ docker-build:
 	@echo "Building... ($(HASH))"
 	@docker build -t $(DOCKERHUB_IMAGE):$(HASH) -t $(DOCKERHUB_IMAGE):latest  .
 	@docker tag $(DOCKERHUB_IMAGE):$(HASH) $(GCR_REPO):$(HASH)
+	@docker tag $(DOCKERHUB_IMAGE):$(HASH) $(GCR_REPO):latest
 	@echo "Built complete ($(HASH))"
 
 docker-push:
