@@ -8,7 +8,7 @@ metadata:
   name: ${_name}
 spec:
   rules:
-  - host: ${_name}.${domain}
+  - host: ${_name}${domain}
     http:
       paths:
       - backend:
