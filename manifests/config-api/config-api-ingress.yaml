@@ -12,5 +12,5 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: ${_name}
+          serviceName: embed-config-api
           servicePort: http
