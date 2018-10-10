@@ -26,6 +26,7 @@ module "config-api" {
   render_dir    = "${local.render_dir}"
 
   domain          = "${var.domain}"
+  tls_secret      = "${var.tls_secret}"
   image_tag       = "${var.image_tag}"
   image_repo      = "${var.image_repo}"
   sql_db_password = "${var.sql_db_password}"

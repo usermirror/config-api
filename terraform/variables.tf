@@ -45,6 +45,12 @@ variable "domain" {
   default     = "staging.helpusersvote.com"
 }
 
+variable "tls_secret" {
+  description = "Name of Secret containing TLS credentials used in configuring ingresses"
+  type        = "string"
+  default     = "ingress-tls"
+}
+
 variable "last_resource" {
   description = "Allows dependency to be expressed to module"
   type        = "string"
