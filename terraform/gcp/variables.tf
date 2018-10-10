@@ -76,3 +76,9 @@ variable "domain" {
   type        = "string"
   default     = "staging.helpusersvote.com"
 }
+
+variable "tls_secret" {
+  description = "Name of Secret containing TLS credentials used in configuring ingresses"
+  type        = "string"
+  default     = "ingress-tls"
+}

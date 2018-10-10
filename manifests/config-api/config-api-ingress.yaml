@@ -2,11 +2,14 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.io/ingress.class: argo-tunnel
+    kubernetes.io/ingress.class: contour
+    kubernetes.io/ingress.allow-http: "false"
   labels:
     ingress: argo-tunnel
   name: ${_name}
 spec:
+  tls:
+  - secretName: ${tls_secret}
   rules:
   - host: ${_name}${domain}
     http:
