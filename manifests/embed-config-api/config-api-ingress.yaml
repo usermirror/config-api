@@ -10,5 +10,5 @@ spec:
   routes:
     - match: /
       services:
-        - name: embed-config-api
+        - name: ${_name}
           port: 80

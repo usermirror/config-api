@@ -3,17 +3,17 @@ apiVersion: apps/v1
 metadata:
   labels:
     heritage: huv
-    app: embed-config-api
-  name: embed-config-api
+    app: ${_name}
+  name: ${_name}
 spec:
   selector:
     matchLabels:
-      app: embed-config-api
+      app: ${_name}
   template:
     metadata:
       labels:
-        app: embed-config-api
-      name: embed-config-api
+        app: ${_name}
+      name: ${_name}
     spec:
       containers:
         - name: config-api
