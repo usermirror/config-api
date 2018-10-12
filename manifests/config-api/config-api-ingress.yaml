@@ -1,19 +1,14 @@
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: contour.heptio.com/v1beta1
+kind: IngressRoute
 metadata:
-  annotations:
-    kubernetes.io/ingress.class: contour
-    kubernetes.io/ingress.allow-http: "false"
-  labels:
-    ingress: argo-tunnel
   name: ${_name}
 spec:
-  tls:
-  - secretName: ${tls_secret}
-  rules:
-  - host: ${_name}${domain}
-    http:
-      paths:
-      - backend:
-          serviceName: embed-config-api
-          servicePort: http
+  virtualhost:
+    fqdn: ${_name}${domain}
+    tls:
+      secretName: ${tls_secret}
+  routes:
+    - match: /
+      services:
+        - name: embed-config-api
+          port: 80
