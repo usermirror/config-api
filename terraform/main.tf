@@ -14,7 +14,7 @@ locals {
 module "config" {
   source = "git::https://github.com/helpusersvote/terraform-kubernetes-helpusersvote.git//modules/config?ref=v0.0.5"
 
-  components   = ["config-api"]
+  components   = ["embed-config-api"]
   render_dir   = "${local.render_dir}"
   config       = "${local.config_path}${local.last}" // TODO: remove once module dependency can be improved
   manifest_dir = "${local.manifests_dir}"

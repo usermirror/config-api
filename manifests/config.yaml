@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: deploy-config
 data:
-  config-api: |
+  embed-config-api: |
     sql_db_password: "changeme"
