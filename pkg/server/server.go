@@ -73,7 +73,8 @@ func (server *Server) Listen() error {
 	router.GET("/internal/health", CORS(ok))
 
 	router.OPTIONS("/v1/namespaces/:namespaceId/configs", CORS(ok))
-	router.GET("/v1/namespaces/:namespaceId/configs", CORS(server.ScanHandler))
+	// TODO: enable when authentication has been implemented
+	// router.GET("/v1/namespaces/:namespaceId/configs", CORS(server.ScanHandler))
 	router.POST("/v1/namespaces/:namespaceId/configs", CORS(server.PostHandler))
 
 	router.OPTIONS("/v1/namespaces/:namespaceId/configs/:configId", CORS(ok))
