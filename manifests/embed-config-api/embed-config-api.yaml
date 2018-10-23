@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: config-api
-          image: ${image_repo}:${image_tag}
+          image: ${image_digest}
           env:
             - name: CONFIG_API_STORAGE_BACKEND
               value: postgres

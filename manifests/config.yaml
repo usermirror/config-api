@@ -5,3 +5,4 @@ metadata:
 data:
   embed-config-api: |
     sql_db_password: "changeme"
+  ballot-api: ""
