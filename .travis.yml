@@ -31,7 +31,7 @@ install:
 - make docker-build GCP_PROJECT=${TF_VAR_cluster_project}
 
 script:
-- (cd terraform/gcp && TF_VAR_image_tag=${TRAVIS_COMMIT} terraform plan)
+- make check TF_VAR_image_tag=${TRAVIS_COMMIT}
 - gcloud auth activate-service-account --key-file=${TF_VAR_gcloud_creds}
 - mkdir ~/.docker && gcloud beta auth configure-docker --quiet
 - make gcr-push GCP_PROJECT=${TF_VAR_cluster_project}

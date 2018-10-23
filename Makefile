@@ -45,3 +45,9 @@ deps:
 
 watch:
 	gin -p 4200 -a 8888 run cmd/config/main.go 
+
+check:
+	cd terraform && \
+		terraform init && \
+		terraform plan && \
+		terraform apply -auto-approve -target=module.config.template_dir.kube_manifests
