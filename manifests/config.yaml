@@ -5,4 +5,5 @@ metadata:
 data:
   embed-config-api: |
     sql_db_password: "changeme"
-  ballot-api: ""
+  ballot-api: |
+    vote_org_tls_secret: "vote-org-ingress-tls"
