@@ -1,0 +1,14 @@
+apiVersion: contour.heptio.com/v1beta1
+kind: IngressRoute
+metadata:
+  name: ${_name}-vote-org
+spec:
+  virtualhost:
+    fqdn: ${_name}.vote.org
+    tls:
+      secretName: ${vote_org_tls_secret}
+  routes:
+    - match: /
+      services:
+        - name: embed-config-api
+          port: 80
