@@ -6,6 +6,7 @@ metadata:
     app: ${_name}
   name: ${_name}
 spec:
+  replicas: ${replicas}
   selector:
     matchLabels:
       app: ${_name}
@@ -15,7 +16,6 @@ spec:
         app: ${_name}
       name: ${_name}
     spec:
-      replicas: ${replicas}
       containers:
         - name: config-api
           image: ${image_digest}
