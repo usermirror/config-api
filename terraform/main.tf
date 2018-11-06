@@ -27,6 +27,7 @@ module "config" {
 
     domain     = "${var.domain}"
     tls_secret = "${var.tls_secret}"
+    replicas   = "${var.replicas}"
   }
 }
 

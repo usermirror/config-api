@@ -51,6 +51,12 @@ variable "tls_secret" {
   default     = "ingress-tls"
 }
 
+variables "replicas" {
+  description = "Number of config-api Pods to be deployed"
+  type        = "string"
+  default     = "3"
+}
+
 variable "last_resource" {
   description = "Allows dependency to be expressed to module"
   type        = "string"

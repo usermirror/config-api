@@ -15,6 +15,7 @@ spec:
         app: ${_name}
       name: ${_name}
     spec:
+      replicas: ${replicas}
       containers:
         - name: config-api
           image: ${image_digest}
